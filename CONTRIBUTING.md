@@ -4,14 +4,14 @@ Obrigado por contribuir com o **CegonhaExpress Delivery**! Este guia irá ajudar
 
 ## 📋 Índice
 
-- [Código de Conduta](#código-de-conduta)
-- [Como Contribuir](#como-contribuir)
-- [Padrões de Desenvolvimento](#padrões-de-desenvolvimento)
-- [Estrutura de Branches](#estrutura-de-branches)
-- [Padrões de Commit](#padrões-de-commit)
-- [Pull Requests](#pull-requests)
-- [Reportando Issues](#reportando-issues)
-- [Configuração do Ambiente](#configuração-do-ambiente)
+- [Código de Conduta](#-código-de-conduta)
+- [Como Contribuir](#-como-contribuir)
+- [Padrões de Desenvolvimento](#-padrões-de-desenvolvimento)
+- [Estrutura de Branches](#-estrutura-de-branches)
+- [Padrões de Commit](#-padrões-de-commit)
+- [Pull Requests](#-pull-requests)
+- [Reportando Issues](#-reportando-issues)
+- [Configuração do Ambiente](#-configuração-do-ambiente)
 
 ## 🌟 Código de Conduta
 
@@ -71,6 +71,7 @@ src/main/java/com/cegonhaexpress/
 ### Convenções de Nomenclatura
 
 **Classes:**
+
 - **Controllers**: `NomeController` (ex: `EntregaController`)
 - **Services**: `NomeService` (ex: `FreteService`)
 - **Repositories**: `NomeRepository` (ex: `EncomendaRepository`)
@@ -78,22 +79,24 @@ src/main/java/com/cegonhaexpress/
 - **Exceptions**: `NomeException` (ex: `CepInvalidoException`)
 
 **Métodos:**
+
 - **Controllers**: verbos HTTP + recurso (ex: `criarEncomenda()`, `buscarPorId()`)
 - **Services**: ações de negócio (ex: `calcularFrete()`, `validarEndereco()`)
 - **Repositories**: padrão Spring Data (ex: `findByStatus()`, `existsByCep()`)
 
-
 ## 🌳 Estrutura de Branches
 
 ### Branch Principal
+
 - **`main`**: Branch de produção, sempre estável
+- **`develop`**: Branch de teste do desenvolvimento
 
 ### Branches de Desenvolvimento
+
 - **`backend`** ou **`frontend`**: Branch de integração para desenvolvimento de cada parte
 - **`feature/nome-da-funcionalidade`**: Novas funcionalidades
 - **`bugfix/nome-do-bug`**: Correção de bugs
 - **`hotfix/nome-do-hotfix`**: Correções urgentes
-- **`docs/nome-da-documentacao`**: Atualizações de documentação
 
 ### Workflow de Branches
 
@@ -117,6 +120,7 @@ git push origin feature/calculo-frete-expresso
 Utilizamos **Conventional Commits** para manter o histórico organizado:
 
 ### Formato
+
 ```
 <tipo>(<escopo>): <descrição>
 
@@ -126,6 +130,7 @@ Utilizamos **Conventional Commits** para manter o histórico organizado:
 ```
 
 ### Tipos de Commit
+
 - **`feat`**: Nova funcionalidade
 - **`fix`**: Correção de bug
 - **`docs`**: Documentação
@@ -135,6 +140,7 @@ Utilizamos **Conventional Commits** para manter o histórico organizado:
 - **`chore`**: Tarefas de manutenção
 
 ### Exemplos
+
 ```bash
 # Funcionalidade
 git commit -m "feat(frete): adiciona cálculo de frete por peso"
@@ -191,12 +197,14 @@ Descreva brevemente o que foi implementado/corrigido.
 ### Revisão de Código
 
 **Para Revisores:**
+
 - Verifique se o código segue os padrões estabelecidos
 - Teste as funcionalidades localmente
 - Deixe comentários construtivos
 - Aprove apenas quando estiver satisfeito com a qualidade
 
 **Para Autores:**
+
 - Responda aos comentários de forma construtiva
 - Faça as correções solicitadas
 - Solicite nova revisão após mudanças significativas
@@ -251,12 +259,14 @@ Qualquer outra informação relevante.
 ### Ferramentas Recomendadas
 
 **IDEs:**
+
 - IntelliJ IDEA
 - Neovim
 - Eclipse STS
 - Visual Studio Code com extensões Java
 
 **Extensões/Plugins:**
+
 - Spring Boot Tools
 - Lombok
 - Git Integration
@@ -265,6 +275,7 @@ Qualquer outra informação relevante.
 ### Configuração do IDE
 
 **IntelliJ IDEA:**
+
 1. Importe como projeto Maven
 2. Configure o JDK 17+
 3. Instale os plugins: Lombok, Spring Boot
@@ -284,10 +295,12 @@ Qualquer outra informação relevante.
 ## 📞 Suporte
 
 **Dúvidas sobre contribuição:**
+
 - Abra uma [Issue](https://github.com/GabrielCoelho/cegonha-express-delivery/issues) com a tag `question`
 - Entre em contato com o maintainer: [@GabrielCoelho](https://github.com/GabrielCoelho)
 
 **Problemas técnicos:**
+
 - Verifique as [Issues existentes](https://github.com/GabrielCoelho/cegonha-express-delivery/issues)
 - Consulte a [documentação do projeto](README.md)
 
