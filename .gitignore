@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignore Windows alternate data stream files
+*:Zone.Identifier
