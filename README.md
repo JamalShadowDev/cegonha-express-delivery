@@ -1,5 +1,7 @@
 # 🐣 CegonhaExpress Delivery
 
+![Logo Cegonha Express](docs/images/logo-cegonha-express.jpeg)
+
 > "Não espere 9 meses para ter o seu bebê, adquira agora e calcule em quanto tempo ele chegará em sua casa!"
 
 **CegonhaExpress** é um sistema completo de entrega especializado em bebês reborn, desenvolvido como projeto acadêmico para demonstrar conceitos avançados de Programação Orientada a Objetos, arquitetura em camadas e integração de APIs.
@@ -129,6 +131,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 - [Adryelle Calefi](https://github.com/DryCaleffi)
 - [Brenda Gaudêncio](https://github.com/brendagaudencio)
 - [Gabriel Coelho Soares](https://github.com/GabrielCoelho)
+- [Guilherme Garcia](https://github.com/HiroGarcia)
 - [Marcos Moreira](https://github.com/JamalShadowDev)
 - [Mateus Nascimento de Araújo](https://github.com/M-Araujo26)
 - [Renan Mazzilli Dias](https://github.com/renan-mazzilli)
