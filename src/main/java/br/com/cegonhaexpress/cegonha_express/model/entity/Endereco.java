@@ -6,7 +6,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -72,6 +75,10 @@ public class Endereco extends BaseEntity {
   @Size(max = 255, message = "Ponto de Referência deve ter no máximo 255 caracteres")
   @Column(name = "pontoReferencia")
   private String pontoReferencia;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "cliente_id")
+  private Cliente cliente;
 
   /**
    * Construtor para criação rápida de endereço com campos essenciais. Útil para testes e integração
