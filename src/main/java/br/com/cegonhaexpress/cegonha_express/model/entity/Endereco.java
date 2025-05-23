@@ -17,6 +17,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**
+ * Entidade de endereços do sistema CegonhaExpress
+ *
+ * @author Gabriel Coelho Soares
+ */
 @Entity
 @Table(
     name = "enderecos",
