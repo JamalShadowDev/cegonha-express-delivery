@@ -19,6 +19,7 @@ Sistema de logística e entrega que simula o processo completo de pedido, cálcu
 ## 🏗️ Arquitetura Técnica
 
 ### Backend (Spring Boot)
+
 - **API REST** com documentação Swagger/OpenAPI
 - **JPA/Hibernate** para persistência de dados
 - **Integração ViaCEP** para validação de CEPs
@@ -26,12 +27,14 @@ Sistema de logística e entrega que simula o processo completo de pedido, cálcu
 - **Tratamento de exceções** personalizado
 
 ### Frontend (MVC + Thymeleaf)
+
 - **Templates responsivos** com Bootstrap 5
 - **Formulários dinâmicos** com validação client/server-side
 - **Interface intuitiva** para consulta de fretes
 - **Feedback visual** em tempo real
 
 ### Banco de Dados
+
 - **H2** para desenvolvimento e testes
 - **PostgreSQL/MySQL** preparado para produção
 - **Modelagem otimizada** com relacionamentos JPA
@@ -39,6 +42,7 @@ Sistema de logística e entrega que simula o processo completo de pedido, cálcu
 ## 🛠️ Tecnologias Utilizadas
 
 **Backend:**
+
 - Java 21+
 - Spring Boot 3.x
 - Spring Data JPA
@@ -47,12 +51,14 @@ Sistema de logística e entrega que simula o processo completo de pedido, cálcu
 - H2/PostgreSQL
 
 **Frontend:**
+
 - Thymeleaf
 - Bootstrap 5
 - JavaScript ES6+
 - HTML5/CSS3
 
 **Ferramentas:**
+
 - Maven
 - Swagger/OpenAPI
 - Git
@@ -60,12 +66,14 @@ Sistema de logística e entrega que simula o processo completo de pedido, cálcu
 ## 🎯 Conceitos Demonstrados
 
 ### Programação Orientada a Objetos
+
 - ✅ **Herança**: Hierarquia de classes para tipos de entrega
 - ✅ **Polimorfismo**: Diferentes estratégias de cálculo de frete
 - ✅ **Encapsulamento**: Proteção de dados e métodos privados
 - ✅ **Abstração**: Interfaces para serviços e repositórios
 
 ### Design Patterns
+
 - 🎯 **Strategy Pattern**: Cálculo de fretes por modalidade
 - 🎯 **Factory Pattern**: Criação de objetos de entrega
 - 🎯 **DTO Pattern**: Transferência de dados entre camadas
@@ -74,6 +82,7 @@ Sistema de logística e entrega que simula o processo completo de pedido, cálcu
 ## 🚀 Como Executar
 
 ### Pré-requisitos
+
 - Java 17 ou superior
 - Maven 3.6+
 - IDE de sua preferência
@@ -96,9 +105,10 @@ java -jar target/cegonha-express-delivery-1.0.0.jar
 ```
 
 ### Acessos
-- **Aplicação Web**: http://localhost:8080
-- **API Documentation**: http://localhost:8080/swagger-ui.html
-- **H2 Console**: http://localhost:8080/h2-console
+
+- **Aplicação Web**: <http://localhost:8080>
+- **API Documentation**: <http://localhost:8080/swagger-ui.html>
+- **H2 Console**: <http://localhost:8080/h2-console>
 
 ## 📚 Documentação Acadêmica
 
@@ -110,17 +120,21 @@ Este projeto foi desenvolvido como trabalho acadêmico para o curso de **Anális
 - Boas práticas de desenvolvimento
 - Documentação técnica completa
 
-
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ## 👨‍💻 Autores
 
+- [Adryelle Calefi](https://github.com/DryCaleffi)
+- [Brenda Gaudêncio](https://github.com/brendagaudencio)
 - [Gabriel Coelho Soares](https://github.com/GabrielCoelho)
-  
-
+- [Marcos Moreira](https://github.com/JamalShadowDev)
+- [Mateus Nascimento de Araújo](https://github.com/M-Araujo26)
+- [Renan Mazzilli Dias](https://github.com/renan-mazzilli)
+- [Tabata Etiéle](https://github.com/TabataEtiele)
+- [Thaito Batalini](https://github.com/tahitoGB)
 
 ---
 
-*Projeto desenvolvido com 💙 para fins acadêmicos - FATEC 2025*
+*Projeto desenvolvido com ☕ para fins acadêmicos - FATEC 2025*
