@@ -3,7 +3,6 @@ package br.com.cegonhaexpress.cegonha_express.services;
 import br.com.cegonhaexpress.cegonha_express.dto.ViaCepResponseDto;
 import br.com.cegonhaexpress.cegonha_express.model.entity.Endereco;
 import br.com.cegonhaexpress.cegonha_express.model.enums.UF;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,11 +21,9 @@ public class ViaCepService {
   private static final String VIA_CEP_API_URL = "https://viacep.com.br/ws/%s/json/";
 
   private final RestTemplate restTemplate;
-  private final ObjectMapper objectMapper;
 
-  public ViaCepService() {
-    this.restTemplate = new RestTemplate();
-    this.objectMapper = new ObjectMapper();
+  public ViaCepService(RestTemplate restTemplate) {
+    this.restTemplate = restTemplate;
   }
 
   /**
@@ -50,7 +47,7 @@ public class ViaCepService {
       String url = String.format(VIA_CEP_API_URL, cepLimpo);
       logger.info("Consultando ViaCEP para CEP: {}", cepLimpo);
 
-      // Faz a requisição
+      // Faz a requisição - ✅ USA O RESTTEMPLATE INJETADO
       ViaCepResponseDto response = restTemplate.getForObject(url, ViaCepResponseDto.class);
 
       // Verifica se houve erro na resposta
@@ -62,9 +59,9 @@ public class ViaCepService {
       logger.info(
           "Endereço encontrado para CEP {}: {}, {}/{}",
           cepLimpo,
-          response.getLogradouro(),
-          response.getLocalidade(),
-          response.getUf());
+          response != null ? response.getLogradouro() : "null",
+          response != null ? response.getLocalidade() : "null",
+          response != null ? response.getUf() : "null");
 
       return response;
 
@@ -133,7 +130,9 @@ public class ViaCepService {
     }
 
     String cepLimpo = limparCep(cep);
-    return isValidCepFormat(cepLimpo) && buscarEnderecoPorCep(cep) != null;
+
+    // ✅ CORREÇÃO: Só valida formato, não faz chamada à API
+    return isValidCepFormat(cepLimpo);
   }
 
   // ==================== MÉTODOS UTILITÁRIOS ====================

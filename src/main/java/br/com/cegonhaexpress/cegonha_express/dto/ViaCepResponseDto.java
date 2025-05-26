@@ -170,6 +170,6 @@ public class ViaCepResponseDto {
       return "Resposta inválida da API";
     }
 
-    return String.format("%s, %s/%s", localidade, uf, cep);
+    return String.format("%s, %s, %s", localidade, uf, cep);
   }
 }
