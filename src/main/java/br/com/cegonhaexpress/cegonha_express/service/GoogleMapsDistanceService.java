@@ -1,6 +1,7 @@
 package br.com.cegonhaexpress.cegonha_express.service;
 
 import br.com.cegonhaexpress.cegonha_express.dto.CalculoDeDistanciaResult;
+import br.com.cegonhaexpress.cegonha_express.exception.GoogleMapsIntegrationException;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
@@ -50,13 +51,14 @@ public class GoogleMapsDistanceService {
 
     } catch (ApiException e) {
       log.error("Erro na API do Google Maps: {}", e.getMessage());
-      // throw new Exeção de projeto
+      throw new GoogleMapsIntegrationException(
+          "Erro ao consultar a distância: " + e.getMessage(), e);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      // throw new Exeção de projeto
+      throw new GoogleMapsIntegrationException("A consulta foi interrompida: ", e);
     } catch (IOException e) {
       log.error("Erro de conectividade com a API do Google Maps: {}", e.getMessage());
-      // throw new Exeção de projeto
+      throw new GoogleMapsIntegrationException("Falha na comunicação com o Google Maps", e);
     }
   }
 
@@ -67,13 +69,13 @@ public class GoogleMapsDistanceService {
   public CalculoDeDistanciaResult processarResposta(
       DistanceMatrix matrix, String origem, String destino) {
     if (matrix.rows == null || matrix.rows.length == 0) {
-      // throw new Exeção de projeto
+      throw new GoogleMapsIntegrationException("Nenhuma rota encontrada entre os endereços");
     }
 
     DistanceMatrixRow row = matrix.rows[0];
 
     if (row.elements == null || row.elements.length == 0) {
-      // throw new Exeção de projeto
+      throw new GoogleMapsIntegrationException("Nenhum elemento de distância foi encontrado");
     }
 
     DistanceMatrixElement element = row.elements[0];
@@ -85,7 +87,7 @@ public class GoogleMapsDistanceService {
             case ZERO_RESULTS -> "Não há rota disponível entre os endereços";
             default -> "Erro desconhecido: " + element.status;
           };
-      // throw new Exeção de projeto
+      throw new GoogleMapsIntegrationException(mensagemErro);
     }
 
     Distance distance = element.distance;
