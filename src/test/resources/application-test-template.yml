@@ -1,0 +1,18 @@
+# =============================================================================
+# TEMPLATE DE CONFIGURAÇÃO PARA TESTES
+# =============================================================================
+# 1. Copie este arquivo para: application-test-local.yml
+# 2. Configure sua API key do Google Maps para testes
+# 3. NÃO COMMITE o application-test-local.yml
+# =============================================================================
+
+# Google Maps API para testes
+google:
+  maps:
+    api:
+      key: "COLE_SUA_API_KEY_AQUI" # ← SUA API KEY DE TESTES
+
+# Opcional: Configurações específicas de teste
+logging:
+  level:
+    com.google.maps: DEBUG # Para debug nos testes

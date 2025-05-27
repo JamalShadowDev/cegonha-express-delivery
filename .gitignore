@@ -34,3 +34,18 @@ build/
 
 # Ignore Windows alternate data stream files
 *:Zone.Identifier
+
+# Arquivos de configuração sensíveis (NÃO COMMITAR)
+application-local.yml
+application-dev.yml
+application-prod.yml
+application-test-local.yml
+.env
+.env.local
+.env.dev
+.env.test
+.env.prod
+
+# Logs
+logs/
+*.log

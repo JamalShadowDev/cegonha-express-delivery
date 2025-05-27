@@ -106,6 +106,17 @@ cd cegonha-express-delivery
 java -jar target/cegonha-express-delivery-1.0.0.jar
 ```
 
+## 🔧 Configuração Local
+
+### 1. Configuração Inicial
+
+```bash
+# 1. Copie o template de configuração
+cp src/main/resources/application-template.yml src/main/resources/application-local.yml
+
+# 2. Configure sua API key no arquivo application-local.yml
+# (O arquivo application-local.yml NÃO será commitado)
+
 ### Acessos
 
 - **Aplicação Web**: <http://localhost:8080>

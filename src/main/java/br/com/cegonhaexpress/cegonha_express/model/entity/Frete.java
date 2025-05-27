@@ -97,7 +97,7 @@ public class Frete extends BaseEntity {
 
   @NotBlank(message = "CEP de destino é obrigatório")
   @Pattern(regexp = "\\d{5}-?\\d{3}", message = "CEP de destino deve ter formato válido")
-  @Column(name = "cep_origem", nullable = false, length = 9)
+  @Column(name = "cep_destino", nullable = false, length = 9)
   private String cepDestino;
 
   /**

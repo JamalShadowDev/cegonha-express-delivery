@@ -1,0 +1,47 @@
+# =============================================================================
+# TEMPLATE DE CONFIGURAÇÃO LOCAL
+# =============================================================================
+# 1. Copie este arquivo para: application-local.yml
+# 2. Configure sua API key do Google Maps
+# 3. Ajuste as configurações de banco se necessário
+# 4. NÃO COMMITE o application-local.yml (ele está no .gitignore)
+# =============================================================================
+
+spring:
+  # Configurações de banco de dados
+  datasource:
+    url: jdbc:h2:mem:cegonhadb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  # JPA/Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+
+  # Console H2 (apenas para desenvolvimento)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+# Google Maps API Configuration
+google:
+  maps:
+    api:
+      key: "COLE_SUA_API_KEY_AQUI" # ← SUBSTITUA PELA SUA API KEY
+
+# Configurações de log para desenvolvimento
+logging:
+  level:
+    br.com.cegonhaexpress: DEBUG
+    com.google.maps: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
