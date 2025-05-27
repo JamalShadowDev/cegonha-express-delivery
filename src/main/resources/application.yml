@@ -1,3 +1,26 @@
 spring:
   application:
     name: Cegonha Express
+  profiles:
+    active: local
+    include:
+      - common
+
+server:
+  port: 8080
+
+# Configurações públicas do Google Maps
+google:
+  maps:
+    distance:
+      matrix:
+        url: https://maps.googleapis.com/maps/api/distancematrix/json
+
+# Configurações de log
+logging:
+  level:
+    br.com.cegonhaexpress: INFO
+    com.google.maps: WARN
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+

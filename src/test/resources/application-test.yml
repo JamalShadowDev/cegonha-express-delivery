@@ -1,0 +1,36 @@
+# Configurações base para testes - SEM API KEYS
+spring:
+  profiles:
+    active: test-local # ← Força carregar application-test-local.yml
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+  h2:
+    console:
+      enabled: true
+
+# Configurações públicas do Google Maps (sem chave)
+google:
+  maps:
+    distance:
+      matrix:
+        url: https://maps.googleapis.com/maps/api/distancematrix/json
+
+# Logs para testes
+logging:
+  level:
+    br.com.cegonhaexpress: WARN
+    com.google.maps: ERROR
+    org.hibernate: WARN
