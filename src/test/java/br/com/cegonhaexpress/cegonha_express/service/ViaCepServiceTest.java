@@ -1,4 +1,4 @@
-package br.com.cegonhaexpress.cegonha_express.services;
+package br.com.cegonhaexpress.cegonha_express.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
