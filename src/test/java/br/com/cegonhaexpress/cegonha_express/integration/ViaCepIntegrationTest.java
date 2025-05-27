@@ -6,7 +6,7 @@ import br.com.cegonhaexpress.cegonha_express.config.RestTemplateConfig;
 import br.com.cegonhaexpress.cegonha_express.dto.ViaCepResponseDto;
 import br.com.cegonhaexpress.cegonha_express.model.entity.Endereco;
 import br.com.cegonhaexpress.cegonha_express.model.enums.UF;
-import br.com.cegonhaexpress.cegonha_express.services.ViaCepService;
+import br.com.cegonhaexpress.cegonha_express.service.ViaCepService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
