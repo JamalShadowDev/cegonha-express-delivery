@@ -74,7 +74,7 @@ public class Endereco extends BaseEntity {
 
   @NotNull(message = "UF é Obrigatório")
   @Enumerated(EnumType.STRING)
-  @Column(name = "idx_endereco_uf", nullable = false, length = 2)
+  @Column(name = "uf", nullable = false, length = 2)
   private UF uf;
 
   @Size(max = 255, message = "Ponto de Referência deve ter no máximo 255 caracteres")

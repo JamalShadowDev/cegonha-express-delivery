@@ -14,7 +14,7 @@ public interface EncomendaRepository extends JpaRepository<Encomenda, Long> {
 
   Optional<Encomenda> findByCodigo(String codigo);
 
-  List<Encomenda> findByStatusEncomendaNotIn(List<StatusEncomenda> status);
+  List<Encomenda> findByStatusNotIn(List<StatusEncomenda> status);
 
   List<Encomenda> findByStatusEncomenda(StatusEncomenda status);
 
