@@ -16,7 +16,7 @@ public interface EncomendaRepository extends JpaRepository<Encomenda, Long> {
 
   List<Encomenda> findByStatusNotIn(List<StatusEncomenda> status);
 
-  List<Encomenda> findByStatusEncomenda(StatusEncomenda status);
+  List<Encomenda> findByStatus(StatusEncomenda status);
 
   List<Encomenda> findByTipoEntrega(TipoEntrega tipoEntrega);
 
