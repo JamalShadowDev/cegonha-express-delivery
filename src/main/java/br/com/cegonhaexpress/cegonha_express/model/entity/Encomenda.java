@@ -306,8 +306,8 @@ public class Encomenda extends BaseEntity {
    */
   private String gerarCodigoUnico() {
     long timestamp = System.currentTimeMillis();
-    int sufixo = (int) (Math.random() * 1000);
-    return String.format("CE%d%03d", timestamp % 1000000, sufixo);
+    int sufixo = (int) (Math.random() * 1000000);
+    return String.format("CE%d%06d", timestamp % 1000000, sufixo);
   }
 
   /**
