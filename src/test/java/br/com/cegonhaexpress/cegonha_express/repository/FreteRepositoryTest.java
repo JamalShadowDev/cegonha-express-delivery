@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.dao.DataIntegrityViolationException;
 
 @DataJpaTest
 @DisplayName("FreteRepository - Testes de Persistência e Consultas")
@@ -98,6 +99,21 @@ class FreteRepositoryTest {
             3);
 
     System.out.println("✅ Dados de teste configurados");
+  }
+
+  // Adicione este teste temporário
+  @Test
+  void testeSuper() {
+    Frete frete =
+        new Frete(
+            encomendaTeste1,
+            TipoEntrega.PADRAO,
+            new BigDecimal("50.00"),
+            new BigDecimal("100.0"),
+            3);
+
+    System.out.println("Created_at: " + frete.getCreatedAt());
+    System.out.println("Updated_at: " + frete.getUpdatedAt());
   }
 
   @Nested
@@ -743,19 +759,40 @@ class FreteRepositoryTest {
 
       System.out.println("🔄 Tentando salvar segundo frete para mesma encomenda...");
 
-      // Then - deve conseguir salvar (validação é de negócio, não banco)
-      assertDoesNotThrow(
-          () -> {
-            Frete segundoFreteSalvo = freteRepository.save(segundoFrete);
-            System.out.println("📋 Segundo frete salvo: " + segundoFreteSalvo.getId());
-          });
+      // Then - deve LANÇAR exceção por violação de constraint unique
+      DataIntegrityViolationException exception =
+          assertThrows(
+              DataIntegrityViolationException.class,
+              () -> {
+                freteRepository.save(segundoFrete);
+                freteRepository.flush(); // Força o flush para capturar a exceção
+              },
+              "Deveria lançar exceção ao tentar salvar segundo frete para mesma encomenda");
 
+      System.out.println(
+          "✅ Exceção capturada corretamente: " + exception.getClass().getSimpleName());
+      System.out.println("📋 Mensagem da exceção: " + exception.getMessage());
+
+      // Limpar o contexto de persistência após a exceção
+      entityManager.clear();
+
+      // Verificar que apenas o primeiro frete existe no banco
       List<Frete> todosFretes = freteRepository.findAll();
-      System.out.println("✅ Total de fretes no banco: " + todosFretes.size());
+      System.out.println("✅ Total de fretes no banco após tentativa: " + todosFretes.size());
 
-      // A aplicação deve controlar a regra de negócio
-      System.out.println("ℹ️ Controle de unicidade é responsabilidade da camada de serviço");
+      // Deve ter apenas 1 frete (o primeiro que foi salvo com sucesso)
+      assertEquals(1, todosFretes.size(), "Deve haver apenas 1 frete no banco");
+      assertEquals(
+          primeiroFrete.getId(),
+          todosFretes.get(0).getId(),
+          "O frete no banco deve ser o primeiro frete salvo");
 
+      // Verificar que o primeiro frete não foi afetado
+      Frete freteNoBanco = todosFretes.get(0);
+      assertEquals(TipoEntrega.EXPRESSA, freteNoBanco.getTipoEntrega());
+      assertEquals(new BigDecimal("65.50"), freteNoBanco.getValor());
+
+      System.out.println("ℹ️ Constraint de unicidade funcionando corretamente no banco de dados");
       System.out.println("🎉 TESTE CONCLUÍDO COM SUCESSO!");
     }
 
