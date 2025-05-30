@@ -33,7 +33,7 @@ import lombok.ToString;
 @Table(
     name = "fretes",
     indexes = {
-      @Index(name = "idx_frete_encomenda", columnList = "encomenda", unique = true),
+      @Index(name = "idx_frete_encomenda", columnList = "encomenda_id", unique = true),
       @Index(name = "idx_frete_tipo_entrega", columnList = "tipo_entrega"),
       @Index(name = "idx_frete_data_calculo", columnList = "data_calculo"),
       @Index(name = "idx_frete_valor", columnList = "valor")
