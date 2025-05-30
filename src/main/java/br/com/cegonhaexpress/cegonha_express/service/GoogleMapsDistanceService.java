@@ -1,6 +1,6 @@
 package br.com.cegonhaexpress.cegonha_express.service;
 
-import br.com.cegonhaexpress.cegonha_express.dto.CalculoDeDistanciaResult;
+import br.com.cegonhaexpress.cegonha_express.dto.result.CalculoDeDistanciaResult;
 import br.com.cegonhaexpress.cegonha_express.exception.GoogleMapsIntegrationException;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.DistanceMatrixApiRequest;

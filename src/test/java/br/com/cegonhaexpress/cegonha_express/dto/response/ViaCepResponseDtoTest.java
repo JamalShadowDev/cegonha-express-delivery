@@ -1,4 +1,4 @@
-package br.com.cegonhaexpress.cegonha_express.dto;
+package br.com.cegonhaexpress.cegonha_express.dto.response;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package br.com.cegonhaexpress.cegonha_express.dto;
+package br.com.cegonhaexpress.cegonha_express.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

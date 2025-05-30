@@ -3,7 +3,7 @@ package br.com.cegonhaexpress.cegonha_express.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import br.com.cegonhaexpress.cegonha_express.dto.ViaCepResponseDto;
+import br.com.cegonhaexpress.cegonha_express.dto.response.ViaCepResponseDto;
 import br.com.cegonhaexpress.cegonha_express.model.entity.Endereco;
 import br.com.cegonhaexpress.cegonha_express.model.enums.UF;
 import org.junit.jupiter.api.BeforeEach;
