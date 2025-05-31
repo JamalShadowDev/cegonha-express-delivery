@@ -14,7 +14,6 @@ import br.com.cegonhaexpress.cegonha_express.repository.EncomendaRepository;
 import br.com.cegonhaexpress.cegonha_express.repository.FreteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -111,8 +110,7 @@ public class EncomendaService {
   }
 
   @Transactional(readOnly = true)
-  public List<EncomendaResponseDTO> buscarPorStatusDiferentesDe(
-      @NotEmpty(message = "Lista de status não pode ser vazia") List<StatusEncomenda> status) {
+  public List<EncomendaResponseDTO> buscarPorStatusDiferentesDe(List<StatusEncomenda> status) {
     List<Encomenda> encomendas = encomendaRepository.findByStatusNotIn(status);
     return encomendas.stream().map(EncomendaResponseDTO::fromEntity).toList();
   }
