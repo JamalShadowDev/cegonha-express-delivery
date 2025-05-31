@@ -33,7 +33,7 @@ import lombok.ToString;
 @Table(
     name = "fretes",
     indexes = {
-      @Index(name = "idx_frete_encomenda", columnList = "encomenda", unique = true),
+      @Index(name = "idx_frete_encomenda", columnList = "encomenda_id", unique = true),
       @Index(name = "idx_frete_tipo_entrega", columnList = "tipo_entrega"),
       @Index(name = "idx_frete_data_calculo", columnList = "data_calculo"),
       @Index(name = "idx_frete_valor", columnList = "valor")
@@ -115,6 +115,7 @@ public class Frete extends BaseEntity {
       BigDecimal valor,
       BigDecimal distanciaKm,
       Integer prazoDias) {
+    super();
     this.encomenda = encomenda;
     this.tipoEntrega = tipoEntrega;
     this.valor = valor;
@@ -332,6 +333,7 @@ public class Frete extends BaseEntity {
   /** Callback executado antes da persistência. Inicializa campos obrigatórios e validações. */
   @PrePersist
   public void onCreate() {
+    super.onCreate();
     if (dataCalculo == null) {
       dataCalculo = LocalDateTime.now();
     }
@@ -357,6 +359,7 @@ public class Frete extends BaseEntity {
   /** Callback executado antes de atualizações. Valida alterações e mantém integridade. */
   @PreUpdate
   public void onUpdate() {
+    super.onUpdate();
     // Atualizar timestamp se valor foi recalculado
     if (valor != null) {
       dataCalculo = LocalDateTime.now();
