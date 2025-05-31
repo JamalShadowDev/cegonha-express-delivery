@@ -13,12 +13,15 @@ import br.com.cegonhaexpress.cegonha_express.repository.ClienteRepository;
 import br.com.cegonhaexpress.cegonha_express.repository.EncomendaRepository;
 import br.com.cegonhaexpress.cegonha_express.repository.FreteRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 @RequiredArgsConstructor
 @Service
+@Validated
 public class EncomendaService {
 
   private final EncomendaRepository encomendaRepository;
@@ -79,5 +82,15 @@ public class EncomendaService {
     }
 
     return encomenda.getStatus();
+  }
+
+  @Transactional(readOnly = true)
+  public EncomendaResponseDTO buscarPorCodigo(@Pattern(regexp = "^CE\\d+$") String codigo) {
+    Encomenda encomenda =
+        encomendaRepository
+            .findByCodigo(codigo)
+            .orElseThrow(
+                () -> new EntityNotFoundException("Não existe uma encomenda com este Código"));
+    return EncomendaResponseDTO.fromEntity(encomenda);
   }
 }
