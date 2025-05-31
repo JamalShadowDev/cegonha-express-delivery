@@ -12,8 +12,10 @@ import br.com.cegonhaexpress.cegonha_express.repository.ClienteRepository;
 import br.com.cegonhaexpress.cegonha_express.repository.EncomendaRepository;
 import br.com.cegonhaexpress.cegonha_express.repository.FreteRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class EncomendaService {
 
@@ -26,14 +28,26 @@ public class EncomendaService {
   @Transactional
   public EncomendaResponseDTO criaEncomenda(EncomendaRequestDTO dto) {
     ViaCepResponseDto buscaCep = viaCepService.buscarEnderecoPorCep("13801-005");
-    Endereco enderecoOrigemPadrao =
-        new Endereco(
-            buscaCep.getCep(),
-            buscaCep.getLogradouro(),
-            "567",
-            buscaCep.getBairro(),
-            buscaCep.getLocalidade(),
-            UF.valueOf(buscaCep.getUf()));
+    Endereco enderecoOrigemPadrao;
+    if (buscaCep != null) {
+      enderecoOrigemPadrao =
+          new Endereco(
+              buscaCep.getCep(),
+              buscaCep.getLogradouro(),
+              "567",
+              buscaCep.getBairro(),
+              buscaCep.getLocalidade(),
+              UF.valueOf(buscaCep.getUf()));
+    } else {
+      enderecoOrigemPadrao =
+          new Endereco(
+              "13801-005",
+              "Rua Ariovaldo Silveira Franco",
+              "567",
+              "Jardim 31 de Março",
+              "Mogi Mirim",
+              UF.valueOf("SP"));
+    }
 
     Encomenda encomenda = dto.toEntity();
     encomenda.setCliente(
