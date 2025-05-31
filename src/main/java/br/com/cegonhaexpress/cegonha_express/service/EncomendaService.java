@@ -13,7 +13,10 @@ import br.com.cegonhaexpress.cegonha_express.repository.ClienteRepository;
 import br.com.cegonhaexpress.cegonha_express.repository.EncomendaRepository;
 import br.com.cegonhaexpress.cegonha_express.repository.FreteRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,12 +88,32 @@ public class EncomendaService {
   }
 
   @Transactional(readOnly = true)
-  public EncomendaResponseDTO buscarPorCodigo(@Pattern(regexp = "^CE\\d+$") String codigo) {
+  public EncomendaResponseDTO buscarPorCodigo(
+      @Pattern(regexp = "^CE\\d+$", message = "Código precisa estar com formatação correta")
+          String codigo) {
     Encomenda encomenda =
         encomendaRepository
             .findByCodigo(codigo)
             .orElseThrow(
                 () -> new EntityNotFoundException("Não existe uma encomenda com este Código"));
     return EncomendaResponseDTO.fromEntity(encomenda);
+  }
+
+  @Transactional
+  public StatusEncomenda cancelarEncomenda(
+      Long id, @NotBlank(message = "Motivo é obrigatório") String motivo) {
+    Encomenda encomenda =
+        encomendaRepository
+            .findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Encomenda não encontrada"));
+    if (encomenda.isAtiva()) encomenda.cancelar(motivo);
+    return encomenda.getStatus();
+  }
+
+  @Transactional(readOnly = true)
+  public List<EncomendaResponseDTO> buscarPorStatusDiferentesDe(
+      @NotEmpty(message = "Lista de status não pode ser vazia") List<StatusEncomenda> status) {
+    List<Encomenda> encomendas = encomendaRepository.findByStatusNotIn(status);
+    return encomendas.stream().map(EncomendaResponseDTO::fromEntity).toList();
   }
 }
