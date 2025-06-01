@@ -1,7 +1,30 @@
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import { ToastContainer } from "react-toastify";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Homepage from "./pages/Homepage";
+import Error from "./pages/Error";
 
 function App() {
-  return <h1>projeto</h1>;
+  return (
+    <>
+      <Navbar />
+
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/register" element="" />
+        <Route path="/products" element="" />
+        <Route path="/product/:id" element="" />
+        <Route path="/about-us" element="" />
+        <Route path="*" element={<Error />} />
+      </Routes>
+
+      <Footer />
+
+      <ToastContainer />
+    </>
+  );
 }
 
 export default App;
