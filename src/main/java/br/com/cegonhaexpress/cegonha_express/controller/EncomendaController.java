@@ -6,6 +6,7 @@ import br.com.cegonhaexpress.cegonha_express.dto.response.EncomendaResponseDTO;
 import br.com.cegonhaexpress.cegonha_express.model.enums.StatusEncomenda;
 import br.com.cegonhaexpress.cegonha_express.service.EncomendaService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,7 @@ public class EncomendaController {
    * @param dto Dados da encomenda a ser criada
    * @return Encomenda criada com status 201 Created
    */
-  @PostMapping
+  @PostMapping(consumes = "application/json")
   public ResponseEntity<EncomendaResponseDTO> createEncomenda(
       @Valid @RequestBody EncomendaRequestDTO dto) {
 
@@ -85,7 +86,10 @@ public class EncomendaController {
    */
   @GetMapping("/{codigo}")
   public ResponseEntity<EncomendaResponseDTO> getSingleEncomenda(
-      @Valid @PathVariable String codigo) {
+      @Valid
+          @Pattern(regexp = "^CE\\d+$", message = "Código precisa estar com formatação correta")
+          @PathVariable
+          String codigo) {
 
     EncomendaResponseDTO encomenda = encomendaService.buscarPorCodigo(codigo);
     return ResponseEntity.ok(encomenda);
@@ -111,7 +115,7 @@ public class EncomendaController {
    * @param dto DTO contendo o motivo do cancelamento
    * @return Status após cancelamento
    */
-  @PutMapping("/{id}/cancelar")
+  @PutMapping(value = "/{id}/cancelar", consumes = "application/json")
   public ResponseEntity<StatusEncomenda> cancelarEncomenda(
       @PathVariable Long id, @Valid @RequestBody CancelamentoRequestDTO dto) {
 

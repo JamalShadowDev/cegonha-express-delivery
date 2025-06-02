@@ -2,6 +2,9 @@ package br.com.cegonhaexpress.cegonha_express.controller.advice;
 
 import br.com.cegonhaexpress.cegonha_express.dto.response.ErrorResponse;
 import br.com.cegonhaexpress.cegonha_express.dto.response.ValidationErrorResponse;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
@@ -10,6 +13,8 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -156,5 +161,75 @@ public class GlobalExceptionHandler {
             .build();
 
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+  }
+
+  @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+  public ResponseEntity<ErrorResponse> handleUnsupportedMediaType(
+      HttpMediaTypeNotSupportedException e, WebRequest request) {
+
+    log.warn("Tipo de mídia não suportado: {}", e.getMessage());
+
+    ErrorResponse error =
+        ErrorResponse.builder()
+            .timestamp(LocalDateTime.now())
+            .status(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value())
+            .error("Tipo de mídia não suportado")
+            .message("Content-Type deve ser application/json")
+            .path(request.getDescription(false).replace("uri=", ""))
+            .build();
+
+    return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(error);
+  }
+
+  // ✅ CORREÇÃO 7: Tratamento para JSON malformado
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public ResponseEntity<ErrorResponse> handleJsonParseError(
+      HttpMessageNotReadableException e, WebRequest request) {
+
+    log.warn("Erro ao processar JSON: {}", e.getMessage());
+
+    String message = "JSON malformado ou formato inválido";
+
+    // Detectar tipos específicos de erro JSON
+    if (e.getCause() instanceof JsonParseException) {
+      message = "JSON malformado - verificar sintaxe";
+    } else if (e.getCause() instanceof InvalidFormatException) {
+      InvalidFormatException ife = (InvalidFormatException) e.getCause();
+      message =
+          String.format(
+              "Tipo inválido para campo '%s': esperado %s",
+              ife.getPath().get(0).getFieldName(), ife.getTargetType().getSimpleName());
+    } else if (e.getCause() instanceof JsonMappingException) {
+      message = "Erro no mapeamento JSON - verificar tipos de dados";
+    }
+
+    ErrorResponse error =
+        ErrorResponse.builder()
+            .timestamp(LocalDateTime.now())
+            .status(HttpStatus.BAD_REQUEST.value())
+            .error("Erro de formato JSON")
+            .message(message)
+            .path(request.getDescription(false).replace("uri=", ""))
+            .build();
+
+    return ResponseEntity.badRequest().body(error);
+  }
+
+  // ✅ CORREÇÃO 8: Tratamento específico para erros de parsing JSON
+  @ExceptionHandler({JsonParseException.class, JsonMappingException.class})
+  public ResponseEntity<ErrorResponse> handleJsonException(Exception e, WebRequest request) {
+
+    log.warn("Erro específico de JSON: {}", e.getMessage());
+
+    ErrorResponse error =
+        ErrorResponse.builder()
+            .timestamp(LocalDateTime.now())
+            .status(HttpStatus.BAD_REQUEST.value())
+            .error("JSON inválido")
+            .message("Verificar formato e tipos de dados no JSON")
+            .path(request.getDescription(false).replace("uri=", ""))
+            .build();
+
+    return ResponseEntity.badRequest().body(error);
   }
 }
