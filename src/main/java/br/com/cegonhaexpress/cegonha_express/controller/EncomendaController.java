@@ -7,7 +7,6 @@ import br.com.cegonhaexpress.cegonha_express.model.enums.StatusEncomenda;
 import br.com.cegonhaexpress.cegonha_express.service.EncomendaService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,8 +37,7 @@ public class EncomendaController {
    */
   @GetMapping
   public ResponseEntity<List<EncomendaResponseDTO>> getEncomendas() {
-    List<EncomendaResponseDTO> encomendas =
-        encomendaService.buscarPorStatusDiferentesDe(new ArrayList<>());
+    List<EncomendaResponseDTO> encomendas = encomendaService.buscarTodasAsEncomendas();
 
     return encomendas.isEmpty()
         ? ResponseEntity.noContent().build()

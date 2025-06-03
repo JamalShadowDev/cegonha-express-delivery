@@ -126,4 +126,10 @@ public class EncomendaService {
     List<Encomenda> encomendas = encomendaRepository.findByStatusNotIn(status);
     return encomendas.stream().map(EncomendaResponseDTO::fromEntity).toList();
   }
+
+  @Transactional(readOnly = true)
+  public List<EncomendaResponseDTO> buscarTodasAsEncomendas() {
+    List<Encomenda> encomendas = encomendaRepository.findAll();
+    return encomendas.stream().map(EncomendaResponseDTO::fromEntity).toList();
+  }
 }
