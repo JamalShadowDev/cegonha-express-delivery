@@ -1,26 +1,63 @@
+# =============================================================================
+# CONFIGURAÇÃO LOCAL COM MARIADB
+# =============================================================================
+
 spring:
-  application:
-    name: Cegonha Express
-  profiles:
-    active: local
-    include:
-      - common
+  # Configurações de banco de dados MariaDB
+  datasource:
+    url: jdbc:mariadb://localhost:3306/cegonha_express?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: cegonhaex
+    password: cegonha
 
-server:
-  port: 8080
+    # Pool de conexões HikariCP (otimizações)
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 300000
+      connection-timeout: 20000
+      leak-detection-threshold: 60000
 
-# Configurações públicas do Google Maps
+  # JPA/Hibernate para MariaDB
+  jpa:
+    hibernate:
+      ddl-auto: update # Cria/atualiza tabelas automaticamente
+    show-sql: true # Mostra SQL no console (útil para debug)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        format_sql: true
+        use_sql_comments: true
+
+    # Configurações de inicialização
+    defer-datasource-initialization: true
+    open-in-view: false # Melhora performance
+
+# Google Maps API Configuration
 google:
   maps:
-    distance:
-      matrix:
-        url: https://maps.googleapis.com/maps/api/distancematrix/json
+    api:
+      key: "AIzaSyCYTZluvy3Ms9t4eCHgBM2XftOdmtMYZ4U"
 
-# Configurações de log
+# Configurações de log para desenvolvimento
 logging:
   level:
-    br.com.cegonhaexpress: INFO
-    com.google.maps: WARN
+    br.com.cegonhaexpress: DEBUG
+    com.google.maps: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+    org.springframework.jdbc.core: DEBUG
+
   pattern:
     console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
 
+# Configurações adicionais de performance
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

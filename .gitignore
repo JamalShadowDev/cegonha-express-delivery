@@ -49,3 +49,8 @@ application-test-local.yml
 # Logs
 logs/
 *.log
+
+# Banco de dados local
+/data/
+*.db
+*.db-journal

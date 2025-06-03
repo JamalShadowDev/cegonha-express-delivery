@@ -11,6 +11,7 @@ import br.com.cegonhaexpress.cegonha_express.model.enums.StatusEncomenda;
 import br.com.cegonhaexpress.cegonha_express.model.enums.UF;
 import br.com.cegonhaexpress.cegonha_express.repository.ClienteRepository;
 import br.com.cegonhaexpress.cegonha_express.repository.EncomendaRepository;
+import br.com.cegonhaexpress.cegonha_express.repository.EnderecoRepository;
 import br.com.cegonhaexpress.cegonha_express.repository.FreteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.constraints.NotBlank;
@@ -28,6 +29,7 @@ public class EncomendaService {
 
   private final EncomendaRepository encomendaRepository;
   private final FreteRepository freteRepository;
+  private final EnderecoRepository enderecoRepository;
   private final ClienteRepository clienteRepository;
   private final FreteService freteService;
   private final ViaCepService viaCepService;
@@ -57,10 +59,20 @@ public class EncomendaService {
               "Mogi Mirim",
               UF.valueOf("SP"));
     }
-
+    enderecoOrigemPadrao = enderecoRepository.save(enderecoOrigemPadrao);
+    Endereco enderecoDestino = dto.getEnderecoDestino().toEntity();
+    enderecoDestino = enderecoRepository.save(enderecoDestino);
+    Cliente cliente =
+        clienteRepository
+            .findByCpf("123.123.128-09")
+            .orElseGet(
+                () -> {
+                  return clienteRepository.save(clientePadrao);
+                });
     Encomenda encomenda = dto.toEntity();
-    encomenda.setCliente(clientePadrao);
+    encomenda.setCliente(cliente);
     encomenda.setEnderecoOrigem(enderecoOrigemPadrao);
+    encomenda.setEnderecoDestino(enderecoDestino);
     encomenda = encomendaRepository.save(encomenda); // cria ID
     Frete frete = freteService.calcularFreteComDistanciaReal(encomenda);
     encomenda.setFrete(frete);
@@ -112,6 +124,12 @@ public class EncomendaService {
   @Transactional(readOnly = true)
   public List<EncomendaResponseDTO> buscarPorStatusDiferentesDe(List<StatusEncomenda> status) {
     List<Encomenda> encomendas = encomendaRepository.findByStatusNotIn(status);
+    return encomendas.stream().map(EncomendaResponseDTO::fromEntity).toList();
+  }
+
+  @Transactional(readOnly = true)
+  public List<EncomendaResponseDTO> buscarTodasAsEncomendas() {
+    List<Encomenda> encomendas = encomendaRepository.findAll();
     return encomendas.stream().map(EncomendaResponseDTO::fromEntity).toList();
   }
 }
