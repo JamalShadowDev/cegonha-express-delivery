@@ -2,7 +2,7 @@ package br.com.cegonhaexpress.cegonha_express.service;
 
 import static org.assertj.core.api.Assertions.*;
 
-import br.com.cegonhaexpress.cegonha_express.dto.CalculoDeDistanciaResult;
+import br.com.cegonhaexpress.cegonha_express.dto.result.CalculoDeDistanciaResult;
 import br.com.cegonhaexpress.cegonha_express.exception.GoogleMapsIntegrationException;
 import br.com.cegonhaexpress.cegonha_express.model.entity.Cliente;
 import br.com.cegonhaexpress.cegonha_express.model.entity.Encomenda;

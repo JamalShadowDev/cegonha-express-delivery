@@ -3,7 +3,7 @@ package br.com.cegonhaexpress.cegonha_express.integration;
 import static org.junit.jupiter.api.Assertions.*;
 
 import br.com.cegonhaexpress.cegonha_express.config.RestTemplateConfig;
-import br.com.cegonhaexpress.cegonha_express.dto.ViaCepResponseDto;
+import br.com.cegonhaexpress.cegonha_express.dto.response.ViaCepResponseDto;
 import br.com.cegonhaexpress.cegonha_express.model.entity.Endereco;
 import br.com.cegonhaexpress.cegonha_express.model.enums.UF;
 import br.com.cegonhaexpress.cegonha_express.service.ViaCepService;

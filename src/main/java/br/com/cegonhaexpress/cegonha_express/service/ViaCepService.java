@@ -1,6 +1,6 @@
 package br.com.cegonhaexpress.cegonha_express.service;
 
-import br.com.cegonhaexpress.cegonha_express.dto.ViaCepResponseDto;
+import br.com.cegonhaexpress.cegonha_express.dto.response.ViaCepResponseDto;
 import br.com.cegonhaexpress.cegonha_express.model.entity.Endereco;
 import br.com.cegonhaexpress.cegonha_express.model.enums.UF;
 import org.slf4j.Logger;
