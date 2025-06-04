@@ -47,13 +47,17 @@ public class FreteService {
         Frete.calcularFrete(
             encomenda.getTipoEntrega(), distanceResult.getDistanciaKm(), encomenda.getPesoKg());
 
+    int duracaoTotal =
+        encomenda.getTipoEntrega().getDiasMinimosEntrega()
+            + (int) ((distanceResult.getDuracaoMinutos() + (24 * 60) - 1) / (24 * 60));
+
     // Cria o frete com dados precisos
     return new Frete(
         encomenda,
         encomenda.getTipoEntrega(),
         valorFrete,
         distanceResult.getDistanciaKm(),
-        encomenda.getTipoEntrega().getDiasMinimosEntrega());
+        duracaoTotal);
   }
 
   /**

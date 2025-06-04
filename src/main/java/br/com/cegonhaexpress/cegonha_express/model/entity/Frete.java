@@ -339,13 +339,13 @@ public class Frete extends BaseEntity {
     }
 
     // Validação de consistência
-    if (tipoEntrega != null && prazoDias != null) {
-      int prazoEsperado = tipoEntrega.getDiasMinimosEntrega();
-      if (!prazoDias.equals(prazoEsperado)) {
-        // Ajustar prazo conforme tipo se inconsistente
-        this.prazoDias = prazoEsperado;
-      }
-    }
+    // if (tipoEntrega != null && prazoDias != null) {
+    //   int prazoEsperado = tipoEntrega.getDiasMinimosEntrega();
+    //   if (!prazoDias.equals(prazoEsperado)) {
+    //     // Ajustar prazo conforme tipo se inconsistente
+    //     this.prazoDias = prazoEsperado;
+    //   }
+    // }
 
     // Normalizar observações
     if (observacoes != null) {
