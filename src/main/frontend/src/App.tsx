@@ -6,20 +6,31 @@ import Footer from "./components/Footer";
 import Homepage from "./pages/Homepage";
 import Error from "./pages/Error";
 import Products from "./pages/Products";
+import { Tracking } from "./pages/Tracking";
+import { Box } from "@mui/material";
 
 function App() {
   return (
     <>
-      <Navbar />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+          overflowX: "hidden",
+        }}
+      >
+        <Navbar />
 
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/register" element="" />
-        <Route path="/products" element={<Products />} />
-        <Route path="/product/:id" element="" />
-        <Route path="/about-us" element="" />
-        <Route path="*" element={<Error />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/tracking" element={<Tracking />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/product/:id" element="" />
+          <Route path="/about-us" element="" />
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </Box>
 
       <Footer />
 

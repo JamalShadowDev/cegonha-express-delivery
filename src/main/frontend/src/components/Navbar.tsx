@@ -44,7 +44,7 @@ export default function Navbar() {
           <Button
             variant="contained"
             component={LinkBehavior}
-            href="/rastreio"
+            href="/tracking"
             sx={{
               borderRadius: "30px",
               backgroundColor: "rgba(242, 175, 160, 1)",
