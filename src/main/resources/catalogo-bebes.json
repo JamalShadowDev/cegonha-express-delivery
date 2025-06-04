@@ -1,0 +1,50 @@
+[
+  {
+    "id": "bebe_001",
+    "nome": "Maya",
+    "descricao": "Bebê reborn de 4 a 6 meses com cabelo loiro claro e olhos azuis abertos. Corpo em vinil siliconado com cabeça mole e membros articulados.",
+    "acessorios": "Acompanha vestido branco com detalhes azuis, faixa de cabelo azul com laço branco e manta de algodão azul bebê.",
+    "peso_kg": 5.735,
+    "altura_cm": 58
+  },
+  {
+    "id": "bebe_002",
+    "nome": "Noah",
+    "descricao": "Bebê reborn de 0 a 1 mês com cabelo castanho escuro e olhos fechados. Corpo de pano com membros de vinil, cabeça mole e articulações móveis.",
+    "acessorios": "Inclui macacão branco com bordado de âncora azul, gorro azul, luvas anti-arranhão brancas e meia azul marinho.",
+    "peso_kg": 3.015,
+    "altura_cm": 48
+  },
+  {
+    "id": "bebe_003",
+    "nome": "Alice",
+    "descricao": "Bebê reborn de 7 a 9 meses com cabelo ruivo claro em cachos suaves e olhos verdes abertos. Corpo em silicone sólido premium com cabeça mole e membros articulados.",
+    "acessorios": "Acompanha body de tricô bege, toquinha de tricô bege, botinha de lã cru e xale de tricô cru.",
+    "peso_kg": 7.675,
+    "altura_cm": 65
+  },
+  {
+    "id": "bebe_004",
+    "nome": "Arthur",
+    "descricao": "Bebê reborn de 1 a 3 meses com cabelo castanho e olhos fechados. Corpo em silicone sólido com cabeça mole e membros articulados.",
+    "acessorios": "Vem com conjunto branco e azul, touca de tricô branca, macacão de algodão azul, meia listrada azul e branca e cobertor bordado branco.",
+    "peso_kg": 5.125,
+    "altura_cm": 52
+  },
+  {
+    "id": "bebe_005",
+    "nome": "Sophia",
+    "descricao": "Bebê reborn de 2 a 4 meses com cabelo castanho médio volumoso e olhos azuis acinzentados levemente entreabertos. Corpo misto de pano com braços e pernas em silicone macio.",
+    "acessorios": "Inclui body amarelo claro, calça de mijão amarela, sapatinho de crochê amarelo e fralda de pano branca.",
+    "peso_kg": 5.040,
+    "altura_cm": 55
+  },
+  {
+    "id": "bebe_006",
+    "nome": "Samuel",
+    "descricao": "Bebê reborn de 5 a 7 meses com cabelo loiro escuro ralo e olhos fechados. Corpo inteiro em silicone sólido premium com cabeça mole e membros articulados.",
+    "acessorios": "Acompanha elegante macacão de tricô branco artesanal.",
+    "peso_kg": 6.980,
+    "altura_cm": 62
+  }
+]
