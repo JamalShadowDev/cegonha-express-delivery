@@ -2,13 +2,20 @@ package br.com.cegonhaexpress.cegonha_express.controller;
 
 import br.com.cegonhaexpress.cegonha_express.dto.request.CancelamentoRequestDTO;
 import br.com.cegonhaexpress.cegonha_express.dto.request.EncomendaRequestDTO;
+import br.com.cegonhaexpress.cegonha_express.dto.response.BebeResponseDTO;
 import br.com.cegonhaexpress.cegonha_express.dto.response.EncomendaResponseDTO;
 import br.com.cegonhaexpress.cegonha_express.model.enums.StatusEncomenda;
 import br.com.cegonhaexpress.cegonha_express.service.EncomendaService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -29,6 +36,10 @@ import org.springframework.web.bind.annotation.*;
 public class EncomendaController {
 
   private final EncomendaService encomendaService;
+  private final ObjectMapper objectMapper;
+
+  @Value("classpath:catalogo-bebes.json")
+  private Resource catalogoResource;
 
   /**
    * Lista todas as encomendas (exceto as com status especificados).
@@ -119,5 +130,17 @@ public class EncomendaController {
 
     StatusEncomenda status = encomendaService.cancelarEncomenda(id, dto.getMotivo());
     return ResponseEntity.ok(status);
+  }
+
+  @GetMapping("/bebes")
+  public ResponseEntity<List<BebeResponseDTO>> getBebesDisponiveis() {
+    try {
+      InputStream inputStream = catalogoResource.getInputStream();
+      List<BebeResponseDTO> bebes =
+          objectMapper.readValue(inputStream, new TypeReference<List<BebeResponseDTO>>() {});
+      return ResponseEntity.ok(bebes);
+    } catch (IOException e) {
+      throw new RuntimeException("Catálogo de bebês não encontrado", e);
+    }
   }
 }
