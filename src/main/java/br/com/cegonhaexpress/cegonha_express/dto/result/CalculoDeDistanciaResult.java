@@ -1,4 +1,4 @@
-package br.com.cegonhaexpress.cegonha_express.dto;
+package br.com.cegonhaexpress.cegonha_express.dto.result;
 
 import java.math.BigDecimal;
 import lombok.Builder;

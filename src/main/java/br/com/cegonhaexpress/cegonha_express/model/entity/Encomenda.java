@@ -13,8 +13,6 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -26,7 +24,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
@@ -39,7 +36,6 @@ import lombok.ToString;
       @Index(name = "idx_encomenda_data_criacao", columnList = "data_pedido")
     })
 @Data
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(
     callSuper = true,
@@ -127,6 +123,7 @@ public class Encomenda extends BaseEntity {
       Endereco enderecoDestino,
       TipoEntrega tipoEntrega,
       String descricaoBebe) {
+    super();
     this.cliente = cliente;
     this.enderecoOrigem = enderecoOrigem;
     this.enderecoDestino = enderecoDestino;
@@ -162,6 +159,18 @@ public class Encomenda extends BaseEntity {
     this.pesoKg = pesoKg;
     this.alturaCm = alturaCm;
     this.valorDeclarado = valorDeclarado;
+  }
+
+  /**
+   * Construtor sem argumentos
+   *
+   * <p>Inicializa a classe com as timestamps corretas mas sem informações
+   */
+  public Encomenda() {
+    super(); // Garante que BaseEntity seja inicializada
+    this.dataPedido = LocalDateTime.now();
+    this.status = StatusEncomenda.PENDENTE;
+    this.codigo = gerarCodigoUnico();
   }
 
   // ==================== MÉTODOS DE NEGÓCIO ====================
@@ -306,8 +315,8 @@ public class Encomenda extends BaseEntity {
    */
   private String gerarCodigoUnico() {
     long timestamp = System.currentTimeMillis();
-    int sufixo = (int) (Math.random() * 1000);
-    return String.format("CE%d%03d", timestamp % 1000000, sufixo);
+    int sufixo = (int) (Math.random() * 1000000);
+    return String.format("CE%d%06d", timestamp % 1000000, sufixo);
   }
 
   /**
@@ -326,33 +335,5 @@ public class Encomenda extends BaseEntity {
       case PADRAO -> hoje.plusDays(3);
       case ECONOMICA -> hoje.plusDays(7);
     };
-  }
-
-  // ==================== CALLBACKS JPA ====================
-
-  /** Callback executado antes da persistência. Inicializa campos obrigatórios se não definidos. */
-  @PrePersist
-  public void onCreate() {
-    if (dataPedido == null) {
-      dataPedido = LocalDateTime.now();
-    }
-    if (status == null) {
-      status = StatusEncomenda.PENDENTE;
-    }
-    if (codigo == null || codigo.trim().isEmpty()) {
-      codigo = gerarCodigoUnico();
-    }
-  }
-
-  /** Callback executado antes de atualizações. Valida transições de status. */
-  @PreUpdate
-  public void onUpdate() {
-    // Validações adicionais podem ser implementadas aqui
-    if (observacoes != null) {
-      observacoes = observacoes.trim();
-      if (observacoes.isEmpty()) {
-        observacoes = null;
-      }
-    }
   }
 }

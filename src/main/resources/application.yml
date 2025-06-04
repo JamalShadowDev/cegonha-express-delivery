@@ -6,6 +6,23 @@ spring:
     include:
       - common
 
+  datasource:
+    url: jdbc:h2:mem:cegonhadb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+    jpa:
+      hibernate:
+        ddl-auto: create-drop
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.H2Dialect
+    h2:
+      console:
+        enabled: true
+        path: /h2-console
+
 server:
   port: 8080
 
@@ -23,4 +40,3 @@ logging:
     com.google.maps: WARN
   pattern:
     console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
-

@@ -19,6 +19,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
@@ -29,6 +30,7 @@ import lombok.ToString;
       @Index(name = "idx_cliente_cpf", columnList = "cpf", unique = true),
       @Index(name = "idx_cliente_email", columnList = "email", unique = true)
     })
+@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(
