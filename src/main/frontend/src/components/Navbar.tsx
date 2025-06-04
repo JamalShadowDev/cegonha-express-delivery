@@ -33,7 +33,7 @@ export default function Navbar() {
           <Button
             variant="contained"
             component={LinkBehavior}
-            href="/catalogo"
+            href="/products"
             sx={{
               borderRadius: "30px",
               backgroundColor: "rgba(242, 175, 160, 1)",
