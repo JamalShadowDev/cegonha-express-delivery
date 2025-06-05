@@ -81,10 +81,12 @@ public class EncomendaService {
   }
 
   @Transactional
-  public StatusEncomenda avancarStatus(Long id) {
+  public StatusEncomenda avancarStatus(
+      @Pattern(regexp = "^CE\\d+$", message = "Código precisa estar na formatação correta")
+          String codigo) {
     Encomenda encomenda =
         encomendaRepository
-            .findById(id)
+            .findByCodigo(codigo)
             .orElseThrow(() -> new EntityNotFoundException("Não existe uma Encomenda com este ID"));
     if (encomenda.isAtiva()) {
       switch (encomenda.getStatus()) {
@@ -118,6 +120,24 @@ public class EncomendaService {
             .findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Encomenda não encontrada"));
     if (encomenda.isAtiva()) encomenda.cancelar(motivo);
+    return encomenda.getStatus();
+  }
+
+  @Transactional
+  public StatusEncomenda cancelarEncomendaPorCodigo(
+      @Pattern(regexp = "^CE\\d+$", message = "Código precisa estar com formatação correta")
+          String codigo,
+      @NotBlank(message = "Motivo é obrigatório") String motivo) {
+
+    Encomenda encomenda =
+        encomendaRepository
+            .findByCodigo(codigo)
+            .orElseThrow(() -> new EntityNotFoundException("Encomenda não encontrada"));
+
+    if (encomenda.isAtiva()) {
+      encomenda.cancelar(motivo);
+    }
+
     return encomenda.getStatus();
   }
 
