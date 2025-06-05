@@ -12,6 +12,7 @@ public class BebeResponseDTO {
 
   private String id;
   private String nome;
+  private String linkImg;
   private String descricao;
   private String acessorios;
   private BigDecimal peso_kg;

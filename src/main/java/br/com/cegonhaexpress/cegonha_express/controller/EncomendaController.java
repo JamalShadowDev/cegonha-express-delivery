@@ -7,6 +7,7 @@ import br.com.cegonhaexpress.cegonha_express.dto.response.EncomendaResponseDTO;
 import br.com.cegonhaexpress.cegonha_express.dto.response.ErrorResponse;
 import br.com.cegonhaexpress.cegonha_express.dto.response.ValidationErrorResponse;
 import br.com.cegonhaexpress.cegonha_express.model.enums.StatusEncomenda;
+import br.com.cegonhaexpress.cegonha_express.repository.EncomendaRepository;
 import br.com.cegonhaexpress.cegonha_express.service.EncomendaService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,6 +59,7 @@ import org.springframework.web.bind.annotation.*;
 public class EncomendaController {
 
   private final EncomendaService encomendaService;
+  private final EncomendaRepository encomendaRepository;
   private final ObjectMapper objectMapper;
 
   @Value("classpath:catalogo-bebes.json")
@@ -388,16 +390,17 @@ public class EncomendaController {
   /**
    * Avança o status da encomenda para o próximo estado válido.
    *
-   * @param id ID numérico da encomenda
+   * @param codigo Código único da encomenda (formato: CE + 13 dígitos)
    * @return Novo status após a transição
    */
-  @PutMapping("/{id}/status")
+  @PutMapping("/{codigo}/status")
   @Operation(
       summary = "Avançar status da encomenda",
       description =
           "Avança o status da encomenda para o próximo estado válido na sequência: "
               + "PENDENTE → CONFIRMADA → EM_TRANSITO → ENTREGUE. "
-              + "Apenas encomendas ativas podem ter status avançado.")
+              + "Apenas encomendas ativas podem ter status avançado. "
+              + "Utiliza o código de rastreamento para identificar a encomenda.")
   @ApiResponses(
       value = {
         @ApiResponse(
@@ -414,12 +417,45 @@ public class EncomendaController {
             description =
                 "Nenhuma transição de status foi possível (encomenda já finalizada ou cancelada)"),
         @ApiResponse(
+            responseCode = "400",
+            description = "Formato de código inválido",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponse.class),
+                    examples =
+                        @ExampleObject(
+                            name = "Código Inválido",
+                            value =
+                                """
+                                {
+                                  "timestamp": "2025-01-15 14:30:00",
+                                  "status": 400,
+                                  "error": "Parâmetro inválido",
+                                  "message": "Código precisa estar no formato correto",
+                                  "path": "/api/encomendas/ABC123/status"
+                                }
+                                """))),
+        @ApiResponse(
             responseCode = "404",
             description = "Encomenda não encontrada",
             content =
                 @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ErrorResponse.class))),
+                    schema = @Schema(implementation = ErrorResponse.class),
+                    examples =
+                        @ExampleObject(
+                            name = "Encomenda Não Encontrada",
+                            value =
+                                """
+                                {
+                                  "timestamp": "2025-01-15 14:30:00",
+                                  "status": 404,
+                                  "error": "Recurso não encontrado",
+                                  "message": "Não existe uma Encomenda com este código",
+                                  "path": "/api/encomendas/CE9999999999999/status"
+                                }
+                                """))),
         @ApiResponse(
             responseCode = "409",
             description = "Conflito de estado (tentativa de avançar status de encomenda inválida)",
@@ -437,15 +473,22 @@ public class EncomendaController {
                                   "status": 409,
                                   "error": "Conflito de estado",
                                   "message": "Só é possível confirmar encomendas pendentes",
-                                  "path": "/api/encomendas/1/status"
+                                  "path": "/api/encomendas/CE1234567890123/status"
                                 }
                                 """)))
       })
   public ResponseEntity<StatusEncomenda> updateStatus(
-      @Parameter(description = "ID numérico da encomenda", example = "1", required = true)
+      @Parameter(
+              description = "Código único da encomenda",
+              example = "CE1234567890123",
+              required = true,
+              schema =
+                  @Schema(type = "string", pattern = "^CE\\d+$", minLength = 15, maxLength = 20))
           @PathVariable
-          Long id) {
-    StatusEncomenda novoStatus = encomendaService.avancarStatus(id);
+          @Pattern(regexp = "^CE\\d+$", message = "Código precisa estar no formato correto")
+          String codigo) {
+
+    StatusEncomenda novoStatus = encomendaService.avancarStatus(codigo);
 
     return novoStatus != null ? ResponseEntity.ok(novoStatus) : ResponseEntity.noContent().build();
   }
@@ -457,7 +500,7 @@ public class EncomendaController {
    * @param dto DTO contendo o motivo do cancelamento
    * @return Status após cancelamento (sempre CANCELADA se bem-sucedido)
    */
-  @PutMapping(value = "/{id}/cancelar", consumes = "application/json")
+  @PutMapping(value = "/{codigo}/cancelar", consumes = "application/json")
   @Operation(
       summary = "Cancelar encomenda",
       description =
@@ -544,10 +587,10 @@ public class EncomendaController {
   public ResponseEntity<StatusEncomenda> cancelarEncomenda(
       @Parameter(description = "ID numérico da encomenda", example = "1", required = true)
           @PathVariable
-          Long id,
+          @Pattern(regexp = "^CE\\d+$", message = "Codigo precisa estar no formato correto")
+          String codigo,
       @Valid @RequestBody CancelamentoRequestDTO dto) {
-
-    StatusEncomenda status = encomendaService.cancelarEncomenda(id, dto.getMotivo());
+    StatusEncomenda status = encomendaService.cancelarEncomendaPorCodigo(codigo, dto.getMotivo());
     return ResponseEntity.ok(status);
   }
 
