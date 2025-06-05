@@ -377,7 +377,7 @@ public class EncomendaController {
               example = "CE1234567890123",
               required = true,
               schema =
-                  @Schema(type = "string", pattern = "^CE\\d+$", minLength = 15, maxLength = 20))
+                  @Schema(type = "string", pattern = "^CE\\d+$", minLength = 14, maxLength = 16))
           @Valid
           @Pattern(regexp = "^CE\\d+$", message = "Código precisa estar com formatação correta")
           @PathVariable
@@ -483,7 +483,7 @@ public class EncomendaController {
               example = "CE1234567890123",
               required = true,
               schema =
-                  @Schema(type = "string", pattern = "^CE\\d+$", minLength = 15, maxLength = 20))
+                  @Schema(type = "string", pattern = "^CE\\d+$", minLength = 14, maxLength = 16))
           @PathVariable
           @Pattern(regexp = "^CE\\d+$", message = "Código precisa estar no formato correto")
           String codigo) {
@@ -585,7 +585,7 @@ public class EncomendaController {
                           }
                           """)))
   public ResponseEntity<StatusEncomenda> cancelarEncomenda(
-      @Parameter(description = "ID numérico da encomenda", example = "1", required = true)
+      @Parameter(description = "Código da encomenda", example = "CE000000000000", required = true)
           @PathVariable
           @Pattern(regexp = "^CE\\d+$", message = "Codigo precisa estar no formato correto")
           String codigo,
