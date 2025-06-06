@@ -1,0 +1,54 @@
+# =============================================================================
+# TEMPLATE DE CONFIGURAÇÃO LOCAL
+# =============================================================================
+# 1. Copie este arquivo para: application-local.yml
+# 2. Configure sua API key do Google Maps
+# 3. Ajuste as configurações de banco se necessário
+# 4. NÃO COMMITE o application-local.yml (ele está no .gitignore)
+# =============================================================================
+
+spring:
+  # Configurações de banco de dados MariaDB
+  datasource:
+    url: jdbc:mariadb://localhost:3306/cegonha_express?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: #seu_usuario
+    password: #sua_senha
+
+    # Pool de conexões HikariCP (otimizações)
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 300000
+      connection-timeout: 20000
+      leak-detection-threshold: 60000
+
+  # JPA/Hibernate para MariaDB
+  jpa:
+    hibernate:
+      ddl-auto: update # Cria/atualiza tabelas automaticamente
+    show-sql: true # Mostra SQL no console (útil para debug)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        format_sql: true
+        use_sql_comments: true
+
+    # Configurações de inicialização
+    defer-datasource-initialization: true
+    open-in-view: false # Melhora performance
+
+# Google Maps API Configuration
+google:
+  maps:
+    api:
+      key: "COLE_SUA_API_KEY_AQUI" # ← SUBSTITUA PELA SUA API KEY
+
+# Configurações de log para desenvolvimento
+logging:
+  level:
+    br.com.cegonhaexpress: DEBUG
+    com.google.maps: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
