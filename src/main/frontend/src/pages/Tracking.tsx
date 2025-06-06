@@ -17,22 +17,18 @@ import {
 import { toast } from "react-toastify";
 import { colorPalette } from "../types/colorPalette";
 
-// Interface para os dados da requisição de rastreamento
-
-// Interface para um evento de rastreamento
 interface TrackingEvent {
-  timestamp: string; // Ex: "2023-10-27T10:00:00Z"
-  location: string; // Ex: "São Paulo, SP"
-  status: string; // Ex: "Em trânsito", "Saiu para entrega", "Entregue"
-  description?: string; // Detalhes adicionais do evento
+  timestamp: string;
+  location: string;
+  status: string;
+  description?: string;
 }
 
-// Interface para a resposta da API de rastreamento
 interface OrderTrackingResponse {
   orderId: string;
-  status: string; // Status geral do pedido
-  events: TrackingEvent[]; // Lista de eventos de movimentação
-  estimatedDelivery?: string; // Data estimada de entrega, se disponível
+  status: string;
+  events: TrackingEvent[];
+  estimatedDelivery?: string;
 }
 
 export const Tracking: React.FC = () => {
@@ -41,14 +37,14 @@ export const Tracking: React.FC = () => {
     useState<OrderTrackingResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [submitted, setSubmitted] = useState<boolean>(false); // Para controlar a exibição inicial
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
   const handleTrackOrder = async (event: React.FormEvent) => {
     event.preventDefault(); // Previne o recarregamento da página
     setLoading(true);
     setError(null);
-    setTrackingData(null); // Limpa dados anteriores
-    setSubmitted(true); // Marca que o formulário foi submetido
+    setTrackingData(null);
+    setSubmitted(true);
 
     if (!orderId.trim()) {
       setError("Por favor, insira um ID de pedido.");
@@ -57,8 +53,6 @@ export const Tracking: React.FC = () => {
     }
 
     try {
-      // Faz a requisição POST para o backend
-      // Altere '/track-order' para o endpoint real da sua API de rastreamento
       const response = await axios.post<OrderTrackingResponse>("/track-order", {
         orderId,
       });
@@ -66,7 +60,7 @@ export const Tracking: React.FC = () => {
       toast.success("Informações de rastreamento carregadas!");
     } catch (err) {
       console.error("Erro ao rastrear pedido:", err);
-      // Verifica se o erro é uma resposta do Axios e tem uma mensagem de erro
+
       if (
         axios.isAxiosError(err) &&
         err.response &&
@@ -120,17 +114,17 @@ export const Tracking: React.FC = () => {
             value={orderId}
             onChange={(e) => setOrderId(e.target.value)}
             required
-            error={submitted && !orderId.trim()} // Exibe erro se submetido e vazio
+            error={submitted && !orderId.trim()}
             helperText={
               submitted && !orderId.trim() ? "ID do pedido é obrigatório" : ""
             }
             sx={{
               "& .MuiOutlinedInput-root": {
-                backgroundColor: colorPalette[4].rgba, // Branco para o fundo do input
+                backgroundColor: colorPalette[4].rgba,
                 borderRadius: "8px",
               },
               "& .MuiInputLabel-root": {
-                color: colorPalette[1].rgba, // Azul do Contorno para o label
+                color: colorPalette[1].rgba,
               },
             }}
           />
@@ -142,10 +136,10 @@ export const Tracking: React.FC = () => {
             sx={{
               py: 1.5,
               borderRadius: "8px",
-              backgroundColor: colorPalette[1].rgba, // Azul do Contorno para o botão
-              color: colorPalette[4].rgba, // Branco para o texto
+              backgroundColor: colorPalette[1].rgba,
+              color: colorPalette[4].rgba,
               "&:hover": {
-                backgroundColor: colorPalette[2].rgba, // Azul da Sombra da Cegonha no hover
+                backgroundColor: colorPalette[2].rgba,
               },
             }}
           >
@@ -174,14 +168,12 @@ export const Tracking: React.FC = () => {
           }}
         >
           {" "}
-          {/* Rosa Claro */}
           <Typography
             variant="h5"
             gutterBottom
             sx={{ color: colorPalette[1].rgba }}
           >
             {" "}
-            {/* Azul do Contorno */}
             Detalhes do Pedido: {trackingData.orderId}
           </Typography>
           <Typography
@@ -189,7 +181,6 @@ export const Tracking: React.FC = () => {
             sx={{ mb: 1, color: colorPalette[1].rgba }}
           >
             {" "}
-            {/* Azul do Contorno */}
             **Status Atual:** {trackingData.status}
           </Typography>
           {trackingData.estimatedDelivery && (
@@ -198,7 +189,6 @@ export const Tracking: React.FC = () => {
               sx={{ mb: 2, color: colorPalette[1].rgba }}
             >
               {" "}
-              {/* Azul do Contorno */}
               **Previsão de Entrega:**{" "}
               {new Date(trackingData.estimatedDelivery).toLocaleDateString(
                 "pt-BR",
@@ -215,7 +205,6 @@ export const Tracking: React.FC = () => {
             sx={{ mt: 3, mb: 2, color: colorPalette[1].rgba }}
           >
             {" "}
-            {/* Azul do Contorno */}
             Histórico de Movimentações:
           </Typography>
           {trackingData.events.length > 0 ? (
@@ -224,7 +213,6 @@ export const Tracking: React.FC = () => {
                 <React.Fragment key={index}>
                   <ListItem disablePadding sx={{ color: colorPalette[1].rgba }}>
                     {" "}
-                    {/* Azul do Contorno */}
                     <ListItemText
                       primary={
                         <Typography
@@ -254,7 +242,6 @@ export const Tracking: React.FC = () => {
                           sx={{ color: colorPalette[2].rgba }}
                         >
                           {" "}
-                          {/* Azul da Sombra da Cegonha */}
                           {`${event.location}${event.description ? ` - ${event.description}` : ""}`}
                         </Typography>
                       }
@@ -277,7 +264,6 @@ export const Tracking: React.FC = () => {
               sx={{ color: colorPalette[1].rgba }}
             >
               {" "}
-              {/* Azul do Contorno */}
               Nenhuma movimentação registrada ainda.
             </Typography>
           )}

@@ -1,23 +1,23 @@
 import { colorPalette } from "../types/colorPalette";
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container } from "@mui/material";
 import LinkBehavior from "../utils/LinkBehavior";
+import Banner from "../components/Banner";
 
 export default function Homepage() {
   return (
     <Container
       disableGutters
       sx={{
-        // py: 4,
-        flexGrow: 1, // Permite que o container cresça e empurre o footer para baixo
+        flexGrow: 1,
         display: "flex",
         width: "100%",
         flexDirection: "column",
-        justifyContent: "center", // Centraliza o conteúdo verticalmente
-        alignItems: "center", // Centraliza o conteúdo horizontalmente
+        justifyContent: "center",
+        alignItems: "center",
         maxWidth: "100vw !important",
       }}
     >
-      <Typography
+      {/* <Typography
         variant="h4"
         component="h1"
         gutterBottom
@@ -25,30 +25,29 @@ export default function Homepage() {
         sx={{ my: 4 }}
       >
         Bem-vindo à Cegonha Express Delivery!
-      </Typography>
-
+      </Typography> */}
+      <Banner title="Bem-vindo à Cegonha Express Delivery!" />
       <Box
         sx={{
           display: "flex",
-          flexDirection: { xs: "column", md: "row" }, // Coluna em telas pequenas, linha em telas médias e maiores
-          flexGrow: 1, // Permite que esta Box ocupe o espaço restante
-          width: "100%", // Ocupa a largura total do container
-          alignItems: "stretch", // Faz com que os filhos se estiquem para preencher a altura
+          flexDirection: { xs: "column", md: "row" },
+          flexGrow: 1,
+          width: "100%",
+          alignItems: "stretch",
           justifyContent: "center",
-          gap: { xs: 2, md: 0 }, // Espaçamento entre os botões em telas pequenas
-          minHeight: { xs: "auto", md: "70vh" }, // <--- Adicionado: Altura mínima para a área dividida
+          gap: { xs: 2, md: 0 },
+          minHeight: { xs: "auto", md: "70vh" },
         }}
       >
-        {/* Botão de Produtos */}
         <Box
           sx={{
-            flex: 1, // Ocupa o espaço disponível
+            flex: 1,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: colorPalette[0].rgba, // Azul do Fundo
-            minHeight: { xs: "200px", md: "auto" }, // Altura mínima para mobile
-            py: { xs: 4, md: 0 }, // Padding vertical para mobile
+            backgroundColor: colorPalette[0].rgba,
+            minHeight: { xs: "200px", md: "auto" },
+            py: { xs: 4, md: 0 },
           }}
         >
           <Button
@@ -57,10 +56,10 @@ export default function Homepage() {
             variant="contained"
             size="large"
             sx={{
-              backgroundColor: colorPalette[4].rgba, // Azul do Contorno para o botão
-              color: colorPalette[1].rgba, // Branco para o texto
+              backgroundColor: colorPalette[4].rgba,
+              color: colorPalette[1].rgba,
               "&:hover": {
-                backgroundColor: colorPalette[2].rgba, // Azul da Sombra da Cegonha no hover
+                backgroundColor: colorPalette[2].rgba,
               },
               fontSize: { xs: "1.2rem", md: "1.5rem" },
               padding: { xs: "15px 30px", md: "20px 40px" },
@@ -72,29 +71,28 @@ export default function Homepage() {
           </Button>
         </Box>
 
-        {/* Botão de Catálogo/Produtos */}
         <Box
           sx={{
-            flex: 1, // Ocupa o espaço disponível
+            flex: 1,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             width: "100%",
-            backgroundColor: colorPalette[3].rgba, // Rosa Claro
-            minHeight: { xs: "200px", md: "auto" }, // Altura mínima para mobile
-            py: { xs: 4, md: 0 }, // Padding vertical para mobile
+            backgroundColor: colorPalette[3].rgba,
+            minHeight: { xs: "200px", md: "auto" },
+            py: { xs: 4, md: 0 },
           }}
         >
           <Button
             component={LinkBehavior}
-            href="/rastreio" // Assumindo que "Catálogo/Produtos" leva para a mesma página de produtos
+            href="/rastreio"
             variant="contained"
             size="large"
             sx={{
-              backgroundColor: colorPalette[1].rgba, // Azul do Contorno para o botão
-              color: colorPalette[4].rgba, // Branco para o texto
+              backgroundColor: colorPalette[1].rgba,
+              color: colorPalette[4].rgba,
               "&:hover": {
-                backgroundColor: colorPalette[2].rgba, // Azul da Sombra da Cegonha no hover
+                backgroundColor: colorPalette[2].rgba,
               },
               fontSize: { xs: "1.2rem", md: "1.5rem" },
               padding: { xs: "15px 30px", md: "20px 40px" },
