@@ -17,7 +17,9 @@ export default function Navbar() {
           mx: 2,
         }}
       >
-        <img src="..\..\public\logo.png" width="90px" height="90px" />
+        <a href="/">
+          <img src="..\..\public\logo.png" width="90px" height="90px" />
+        </a>
         <Box sx={{ display: "flex", alignContent: "end", gap: 1 }}>
           <Button
             variant="text"
