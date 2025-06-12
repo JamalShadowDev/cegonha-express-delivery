@@ -13,41 +13,27 @@ const Banner: React.FC<BannerProps> = ({ title }) => {
         display: "flex",
         flexDirection: { xs: "column", md: "row" },
         alignItems: "center",
-        justifyContent: "space-between",
-        backgroundColor: colorPalette[0].rgba,
-        borderRadius: "8px",
+        justifyContent: "center",
+        // backgroundColor: colorPalette[0].rgba,
         overflow: "hidden",
-        boxShadow: 3,
-        mt: 4,
-        mb: 4,
-        minHeight: { xs: "250px", md: "200px" },
+        boxShadow: 0,
+
         width: "100%",
       }}
     >
       <Box
         component="img"
-        src="src\main\frontend\public\cegonha.png"
+        src="../../cegonha.png"
         alt="Banner Imagem"
         sx={{
-          width: { xs: "100%", md: "50%" },
-          height: { xs: "150px", md: "100%" },
+          width: "400px",
+          height: "400px",
           objectFit: "cover",
-          borderTopLeftRadius: { xs: "8px", md: "8px" },
-          borderTopRightRadius: { xs: "8px", md: "0" },
-          borderBottomLeftRadius: { xs: "0", md: "8px" },
-          borderBottomRightRadius: { xs: "0", md: "0" },
         }}
       />
 
       <Box
         sx={{
-          width: { xs: "100%", md: "50%" },
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          py: { xs: 2, md: 0 },
-          px: { xs: 2, md: 4 },
-          textAlign: { xs: "center", md: "left" },
           color: colorPalette[1].rgba,
         }}
       >

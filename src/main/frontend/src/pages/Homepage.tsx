@@ -17,15 +17,6 @@ export default function Homepage() {
         maxWidth: "100vw !important",
       }}
     >
-      {/* <Typography
-        variant="h4"
-        component="h1"
-        gutterBottom
-        align="center"
-        sx={{ my: 4 }}
-      >
-        Bem-vindo à Cegonha Express Delivery!
-      </Typography> */}
       <Banner title="Bem-vindo à Cegonha Express Delivery!" />
       <Box
         sx={{
@@ -85,7 +76,7 @@ export default function Homepage() {
         >
           <Button
             component={LinkBehavior}
-            href="/rastreio"
+            href="/tracking" // mudar aqui
             variant="contained"
             size="large"
             sx={{
