@@ -44,7 +44,7 @@ export const Tracking: React.FC = () => {
 
     try {
       const response = await axios.get<EncomendaResponse>(
-        `/api/encomendas/${codigoEncomenda}`,
+        `http://localhost:8080/api/encomendas/${codigoEncomenda}`,
       );
       setEncomendaData(response.data);
       toast.success("Informações da encomenda carregadas!");

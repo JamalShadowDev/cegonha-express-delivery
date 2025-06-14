@@ -33,7 +33,9 @@ export const Products: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get<Produto[]>("/api/encomendas/bebes");
+        const response = await axios.get<Produto[]>(
+          "http://localhost:8080/api/encomendas/bebes",
+        );
         setProdutos(response.data);
       } catch (err) {
         console.error("Erro ao buscar produtos:", err);
