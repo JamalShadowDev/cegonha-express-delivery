@@ -79,6 +79,9 @@ export default function Footer() {
             variant="text"
             component={LinkBehavior}
             href="/"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
             sx={{
               color: "rgba(242, 242, 240, 1)",
             }}
@@ -88,7 +91,10 @@ export default function Footer() {
           <Button
             variant="text"
             component={LinkBehavior}
-            href="/catalogo"
+            href="/products"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
             sx={{
               color: "rgba(242, 242, 240, 1)",
             }}
@@ -98,7 +104,10 @@ export default function Footer() {
           <Button
             variant="text"
             component={LinkBehavior}
-            href="/rastreio"
+            href="/tracking"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
             sx={{
               color: "rgba(242, 242, 240, 1)",
             }}

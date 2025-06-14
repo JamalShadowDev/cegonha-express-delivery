@@ -8,34 +8,37 @@ import {
   Typography,
   Pagination,
   CircularProgress,
-  Alert,
   Box,
+  Button,
 } from "@mui/material";
 import { toast } from "react-toastify";
 import type { Produto } from "../types/produto";
-import { mockProdutos } from "../types/mock";
-import { colorPalette } from "../types/colorPalette";
 
-const ListaProdutos: React.FC = () => {
+import Banner from "../components/Banner";
+import { colorPalette } from "../types/colorPalette";
+import { ModalOrder } from "../components/ModalOrder";
+
+export const Products: React.FC = () => {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [paginaAtual, setPaginaAtual] = useState<number>(1);
   const produtosPorPagina = 12;
 
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [selectedProduto, setSelectedProduto] = useState<Produto | null>(null);
+
   useEffect(() => {
     const fetchProdutos = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get<Produto[]>("/produtos");
+        const response = await axios.get<Produto[]>("/api/encomendas/bebes");
         setProdutos(response.data);
       } catch (err) {
         console.error("Erro ao buscar produtos:", err);
-        setError(
-          "Não foi possível carregar os produtos. Tente novamente mais tarde.",
-        );
-        toast.error("Erro ao carregar produtos!");
+        toast.error("Erro ao carregar produtos! Tente novamente mais tarde.");
+        setError("true");
       } finally {
         setLoading(false);
       }
@@ -44,12 +47,12 @@ const ListaProdutos: React.FC = () => {
     fetchProdutos();
   }, []);
 
-  // const indiceUltimoProduto = paginaAtual * produtosPorPagina;
-  // const indicePrimeiroProduto = indiceUltimoProduto - produtosPorPagina;
-  //   const produtosAtuais = produtos.slice(
-  //     indicePrimeiroProduto,
-  //     indiceUltimoProduto,
-  //   );
+  const indiceUltimoProduto = paginaAtual * produtosPorPagina;
+  const indicePrimeiroProduto = indiceUltimoProduto - produtosPorPagina;
+  const produtosAtuais = produtos.slice(
+    indicePrimeiroProduto,
+    indiceUltimoProduto,
+  );
   const totalPaginas = Math.ceil(produtos.length / produtosPorPagina);
 
   const handleChangePage = (
@@ -58,6 +61,16 @@ const ListaProdutos: React.FC = () => {
   ) => {
     setPaginaAtual(value);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleOpenModal = (produto: Produto) => {
+    setSelectedProduto(produto);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedProduto(null);
   };
 
   if (loading) {
@@ -78,10 +91,13 @@ const ListaProdutos: React.FC = () => {
     );
   }
 
-  if (error) {
+  if (error && produtos.length === 0) {
     return (
       <Container sx={{ mt: 4 }}>
-        <Alert severity="error">{error}</Alert>
+        <Typography variant="h6" color="error">
+          Não foi possível carregar os produtos devido a um erro. Por favor,
+          tente novamente.
+        </Typography>
       </Container>
     );
   }
@@ -89,7 +105,9 @@ const ListaProdutos: React.FC = () => {
   if (produtos.length === 0) {
     return (
       <Container sx={{ mt: 4 }}>
-        <Alert severity="info">Nenhum produto encontrado.</Alert>
+        <Typography variant="h6" color="text.secondary">
+          Nenhum produto encontrado.
+        </Typography>
       </Container>
     );
   }
@@ -99,16 +117,7 @@ const ListaProdutos: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography
-        variant="h4"
-        component="h1"
-        gutterBottom
-        align="center"
-        sx={{ mb: 4 }}
-      >
-        Catálogo
-      </Typography>
-
+      <Banner title="Catálogo de produtos" />
       <Box
         sx={{
           display: "flex",
@@ -116,7 +125,7 @@ const ListaProdutos: React.FC = () => {
           margin: `-${halfSpacing}px`,
         }}
       >
-        {mockProdutos.map((produto, index) => (
+        {produtosAtuais.map((produto, index) => (
           <Box
             key={produto.id}
             sx={{
@@ -136,12 +145,14 @@ const ListaProdutos: React.FC = () => {
                 flexDirection: "column",
                 borderRadius: "8px",
                 backgroundColor: colorPalette[index % colorPalette.length].rgba,
+                cursor: "pointer",
               }}
+              onClick={() => handleOpenModal(produto)}
             >
               <CardMedia
                 component="img"
                 height="200"
-                image={produto.imagemUrl}
+                image={produto.linkImg}
                 alt={produto.nome}
                 sx={{ objectFit: "cover" }}
               />
@@ -152,53 +163,28 @@ const ListaProdutos: React.FC = () => {
                 <Typography variant="body2" color="text.secondary">
                   {produto.descricao}
                 </Typography>
+                <Button
+                  variant="contained"
+                  sx={{
+                    mt: 2,
+                    backgroundColor: colorPalette[1].rgba,
+                    "&:hover": {
+                      backgroundColor: colorPalette[2].rgba,
+                    },
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOpenModal(produto);
+                  }}
+                >
+                  Fazer Pedido
+                </Button>
               </CardContent>
             </Card>
           </Box>
         ))}
       </Box>
 
-      {/* {produtosAtuais.map((produto) => (
-          <Box
-            key={produto.id}
-            sx={{
-              padding: `${halfSpacing}px`,
-              width: {
-                xs: "100%",
-                sm: "50%",
-                md: "33.33%",
-                lg: "25%",
-              },
-            }}
-          >
-            <Card
-              sx={{
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                borderRadius: "8px",
-              }}
-            >
-              <CardMedia
-                component="img"
-                height="200"
-                image={produto.imagemUrl}
-                alt={produto.nome}
-                sx={{ objectFit: "cover" }}
-              />
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Typography gutterBottom variant="h6" component="div">
-                  {produto.nome}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {produto.descricao}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Box>
-        ))}
-      </Box>
- */}
       {totalPaginas > 1 && (
         <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
           <Pagination
@@ -212,8 +198,14 @@ const ListaProdutos: React.FC = () => {
           />
         </Box>
       )}
+
+      {selectedProduto && (
+        <ModalOrder
+          open={modalOpen}
+          handleClose={handleCloseModal}
+          produto={selectedProduto}
+        />
+      )}
     </Container>
   );
 };
-
-export default ListaProdutos;

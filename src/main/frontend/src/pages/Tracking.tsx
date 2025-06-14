@@ -9,57 +9,47 @@ import {
   CircularProgress,
   Alert,
   Paper,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
 } from "@mui/material";
 import { toast } from "react-toastify";
 import { colorPalette } from "../types/colorPalette";
 
-interface TrackingEvent {
-  timestamp: string;
-  location: string;
+interface EncomendaResponse {
+  codigo: string;
   status: string;
-  description?: string;
-}
-
-interface OrderTrackingResponse {
-  orderId: string;
-  status: string;
-  events: TrackingEvent[];
-  estimatedDelivery?: string;
+  valorFrete: string;
+  tempoEstimadoEntrega: string;
 }
 
 export const Tracking: React.FC = () => {
-  const [orderId, setOrderId] = useState<string>("");
-  const [trackingData, setTrackingData] =
-    useState<OrderTrackingResponse | null>(null);
+  const [codigoEncomenda, setCodigoEncomenda] = useState<string>("");
+  const [encomendaData, setEncomendaData] = useState<EncomendaResponse | null>(
+    null,
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   const handleTrackOrder = async (event: React.FormEvent) => {
-    event.preventDefault(); // Previne o recarregamento da página
+    event.preventDefault();
     setLoading(true);
     setError(null);
-    setTrackingData(null);
+    setEncomendaData(null);
     setSubmitted(true);
 
-    if (!orderId.trim()) {
-      setError("Por favor, insira um ID de pedido.");
+    if (!codigoEncomenda.trim()) {
+      setError("Por favor, insira um código de encomenda.");
       setLoading(false);
       return;
     }
 
     try {
-      const response = await axios.post<OrderTrackingResponse>("/track-order", {
-        orderId,
-      });
-      setTrackingData(response.data);
-      toast.success("Informações de rastreamento carregadas!");
+      const response = await axios.get<EncomendaResponse>(
+        `/api/encomendas/${codigoEncomenda}`,
+      );
+      setEncomendaData(response.data);
+      toast.success("Informações da encomenda carregadas!");
     } catch (err) {
-      console.error("Erro ao rastrear pedido:", err);
+      console.error("Erro ao rastrear encomenda:", err);
 
       if (
         axios.isAxiosError(err) &&
@@ -71,9 +61,9 @@ export const Tracking: React.FC = () => {
         toast.error(err.response.data.message);
       } else {
         setError(
-          "Não foi possível rastrear o pedido. Verifique o ID e tente novamente.",
+          "Não foi possível rastrear a encomenda. Verifique o código e tente novamente.",
         );
-        toast.error("Erro ao rastrear pedido!");
+        toast.error("Erro ao rastrear encomenda!");
       }
     } finally {
       setLoading(false);
@@ -89,7 +79,7 @@ export const Tracking: React.FC = () => {
         align="center"
         sx={{ mb: 10 }}
       >
-        Rastrear Pedido
+        Rastrear Encomenda
       </Typography>
 
       <Paper
@@ -101,22 +91,23 @@ export const Tracking: React.FC = () => {
           backgroundColor: colorPalette[0].rgba,
         }}
       >
-        {" "}
         <Box
           component="form"
           onSubmit={handleTrackOrder}
           sx={{ display: "flex", flexDirection: "column", gap: 2 }}
         >
           <TextField
-            label="ID do Pedido"
+            label="Código da Encomenda"
             variant="outlined"
             fullWidth
-            value={orderId}
-            onChange={(e) => setOrderId(e.target.value)}
+            value={codigoEncomenda}
+            onChange={(e) => setCodigoEncomenda(e.target.value)}
             required
-            error={submitted && !orderId.trim()}
+            error={submitted && !codigoEncomenda.trim()}
             helperText={
-              submitted && !orderId.trim() ? "ID do pedido é obrigatório" : ""
+              submitted && !codigoEncomenda.trim()
+                ? "O código da encomenda é obrigatório"
+                : ""
             }
             sx={{
               "& .MuiOutlinedInput-root": {
@@ -158,115 +149,40 @@ export const Tracking: React.FC = () => {
         </Alert>
       )}
 
-      {trackingData && (
+      {encomendaData && (
         <Paper
           elevation={3}
           sx={{
             p: { xs: 2, md: 4 },
             borderRadius: "8px",
-            backgroundColor: colorPalette[3].rgba,
+            backgroundColor: colorPalette[2].rgba,
           }}
         >
-          {" "}
           <Typography
             variant="h5"
             gutterBottom
             sx={{ color: colorPalette[1].rgba }}
           >
-            {" "}
-            Detalhes do Pedido: {trackingData.orderId}
+            Detalhes da Encomenda: {encomendaData.codigo}
           </Typography>
-          <Typography
-            variant="body1"
-            sx={{ mb: 1, color: colorPalette[1].rgba }}
+          <Box
+            display="flex"
+            sx={{ alignItems: "center", justifyContent: "space-between" }}
           >
-            {" "}
-            **Status Atual:** {trackingData.status}
-          </Typography>
-          {trackingData.estimatedDelivery && (
+            <Typography
+              variant="body1"
+              sx={{ mb: 1, color: colorPalette[1].rgba }}
+            >
+              Status Atual: {encomendaData.status}
+            </Typography>
+
             <Typography
               variant="body1"
               sx={{ mb: 2, color: colorPalette[1].rgba }}
             >
-              {" "}
-              **Previsão de Entrega:**{" "}
-              {new Date(trackingData.estimatedDelivery).toLocaleDateString(
-                "pt-BR",
-                {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                },
-              )}
+              Tempo Estimado de Entrega: {encomendaData.tempoEstimadoEntrega}
             </Typography>
-          )}
-          <Typography
-            variant="h6"
-            sx={{ mt: 3, mb: 2, color: colorPalette[1].rgba }}
-          >
-            {" "}
-            Histórico de Movimentações:
-          </Typography>
-          {trackingData.events.length > 0 ? (
-            <List>
-              {trackingData.events.map((event, index) => (
-                <React.Fragment key={index}>
-                  <ListItem disablePadding sx={{ color: colorPalette[1].rgba }}>
-                    {" "}
-                    <ListItemText
-                      primary={
-                        <Typography
-                          variant="subtitle1"
-                          component="span"
-                          sx={{
-                            fontWeight: "bold",
-                            color: colorPalette[1].rgba,
-                          }}
-                        >
-                          {new Date(event.timestamp).toLocaleDateString(
-                            "pt-BR",
-                            {
-                              day: "2-digit",
-                              month: "2-digit",
-                              year: "numeric",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            },
-                          )}{" "}
-                          - {event.status}
-                        </Typography>
-                      }
-                      secondary={
-                        <Typography
-                          variant="body2"
-                          sx={{ color: colorPalette[2].rgba }}
-                        >
-                          {" "}
-                          {`${event.location}${event.description ? ` - ${event.description}` : ""}`}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
-                  {index < trackingData.events.length - 1 && (
-                    <Divider
-                      component="li"
-                      sx={{ borderColor: colorPalette[2].rgba }}
-                    />
-                  )}{" "}
-                  {/* Azul da Sombra da Cegonha */}
-                </React.Fragment>
-              ))}
-            </List>
-          ) : (
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ color: colorPalette[1].rgba }}
-            >
-              {" "}
-              Nenhuma movimentação registrada ainda.
-            </Typography>
-          )}
+          </Box>
         </Paper>
       )}
     </Container>

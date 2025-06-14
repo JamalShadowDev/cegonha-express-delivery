@@ -5,9 +5,10 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Homepage from "./pages/Homepage";
 import Error from "./pages/Error";
-import Products from "./pages/Products";
+import { Products } from "./pages/Products";
 import { Tracking } from "./pages/Tracking";
 import { Box } from "@mui/material";
+import { AdminPage } from "./pages/AdminPage";
 
 function App() {
   return (
@@ -26,8 +27,7 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/tracking" element={<Tracking />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/product/:id" element="" />
-          <Route path="/about-us" element="" />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<Error />} />
         </Routes>
       </Box>
