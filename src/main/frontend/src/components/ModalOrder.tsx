@@ -11,8 +11,14 @@ import {
   MenuItem,
   InputAdornment,
   IconButton,
+  Divider,
+  Card,
+  CardContent,
+  Stack,
+  Chip,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import InfoIcon from "@mui/icons-material/Info";
 import { toast } from "react-toastify";
 import { colorPalette } from "../types/colorPalette";
 import type { Produto } from "../types/produto";
@@ -72,7 +78,7 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
       referencia: "",
     },
     tipoEntrega: "PADRAO",
-    descricaoBebe: produto.nome || "",
+    descricaoBebe: "",
     pesoKg: 0,
     alturaCm: 0,
     valorDeclarado: 0,
@@ -87,16 +93,35 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: { xs: "90%", md: 600 },
+    width: { xs: "95%", md: 700 },
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
-    borderRadius: "8px",
+    borderRadius: "12px",
     maxHeight: "90vh",
     overflowY: "auto",
     backgroundColor: colorPalette[4].rgba,
     color: colorPalette[1].rgba,
+  };
+
+  // Função para criar descrição completa do bebê
+  const createFullDescription = (produto: Produto) => {
+    const parts = [];
+
+    if (produto.nome) {
+      parts.push(`Bebê ${produto.nome}`);
+    }
+
+    if (produto.descricao) {
+      parts.push(produto.descricao);
+    }
+
+    if (produto.acessorios) {
+      parts.push(`Acessórios inclusos: ${produto.acessorios}`);
+    }
+
+    return parts.join(" - ");
   };
 
   const handleChange = (
@@ -142,7 +167,6 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
         return;
       }
 
-      // Atualizar os campos do endereço com os dados retornados
       setFormData((prev) => ({
         ...prev,
         enderecoDestino: {
@@ -153,7 +177,6 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
           cidade: data.localidade || "",
           uf: data.uf || "",
           complemento: data.complemento || prev.enderecoDestino.complemento,
-          // Manter número e referência que o usuário pode ter digitado
         },
       }));
 
@@ -181,7 +204,7 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
         formData,
       );
       toast.success(
-        `Pedido de ${produto.nome} criado com sucesso! ID: ${response.data.id || response.data.codigo}`,
+        `Pedido de ${produto.nome} criado com sucesso! Código: ${response.data.codigo || response.data.id}`,
       );
       handleClose();
     } catch (err) {
@@ -203,14 +226,44 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
     }
   };
 
+  // Effect para preencher dados automaticamente quando o produto mudar
   useEffect(() => {
-    if (produto) {
+    if (produto && open) {
+      const fullDescription = createFullDescription(produto);
+
       setFormData((prev) => ({
         ...prev,
-        descricaoBebe: produto.nome || "",
+        descricaoBebe: fullDescription,
+        pesoKg: produto.peso_kg || 0,
+        alturaCm: produto.altura_cm || 0,
+        valorDeclarado: 0, // Valor declarado continua sendo preenchido pelo usuário
       }));
     }
-  }, [produto]);
+  }, [produto, open]);
+
+  // Reset form when modal closes
+  useEffect(() => {
+    if (!open) {
+      setFormData({
+        enderecoDestino: {
+          cep: "",
+          logradouro: "",
+          numero: "",
+          complemento: "",
+          bairro: "",
+          cidade: "",
+          uf: "",
+          referencia: "",
+        },
+        tipoEntrega: "PADRAO",
+        descricaoBebe: "",
+        pesoKg: 0,
+        alturaCm: 0,
+        valorDeclarado: 0,
+      });
+      setError(null);
+    }
+  }, [open]);
 
   return (
     <Modal open={open} onClose={handleClose}>
@@ -219,7 +272,7 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
           variant="h5"
           component="h2"
           gutterBottom
-          sx={{ color: colorPalette[1].rgba }}
+          sx={{ color: colorPalette[1].rgba, fontWeight: "bold", mb: 3 }}
         >
           Fazer Pedido para: {produto.nome}
         </Typography>
@@ -230,9 +283,11 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
           </Alert>
         )}
 
+        <Divider sx={{ my: 2 }} />
+
         <Typography
           variant="h6"
-          sx={{ mt: 3, mb: 1, color: colorPalette[1].rgba }}
+          sx={{ mt: 3, mb: 2, color: colorPalette[1].rgba, fontWeight: "bold" }}
         >
           Endereço de Destino
         </Typography>
@@ -273,38 +328,41 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
           }}
         />
 
-        <TextField
-          label="Logradouro"
-          name="enderecoDestino.logradouro"
-          value={formData.enderecoDestino.logradouro}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-          sx={{
-            "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
-            "& .MuiOutlinedInput-root": {
-              backgroundColor: colorPalette[0].rgba,
-              color: colorPalette[1].rgba,
-            },
-          }}
-        />
-        <TextField
-          label="Número"
-          name="enderecoDestino.numero"
-          value={formData.enderecoDestino.numero}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-          sx={{
-            "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
-            "& .MuiOutlinedInput-root": {
-              backgroundColor: colorPalette[0].rgba,
-              color: colorPalette[1].rgba,
-            },
-          }}
-        />
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <TextField
+            label="Logradouro"
+            name="enderecoDestino.logradouro"
+            value={formData.enderecoDestino.logradouro}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            required
+            sx={{
+              "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
+              "& .MuiOutlinedInput-root": {
+                backgroundColor: colorPalette[0].rgba,
+                color: colorPalette[1].rgba,
+              },
+            }}
+          />
+          <TextField
+            label="Número"
+            name="enderecoDestino.numero"
+            value={formData.enderecoDestino.numero}
+            onChange={handleChange}
+            margin="normal"
+            required
+            sx={{
+              width: "30%",
+              "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
+              "& .MuiOutlinedInput-root": {
+                backgroundColor: colorPalette[0].rgba,
+                color: colorPalette[1].rgba,
+              },
+            }}
+          />
+        </Box>
+
         <TextField
           label="Complemento (Opcional)"
           name="enderecoDestino.complemento"
@@ -320,54 +378,58 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
             },
           }}
         />
-        <TextField
-          label="Bairro"
-          name="enderecoDestino.bairro"
-          value={formData.enderecoDestino.bairro}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-          sx={{
-            "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
-            "& .MuiOutlinedInput-root": {
-              backgroundColor: colorPalette[0].rgba,
-              color: colorPalette[1].rgba,
-            },
-          }}
-        />
-        <TextField
-          label="Cidade"
-          name="enderecoDestino.cidade"
-          value={formData.enderecoDestino.cidade}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-          sx={{
-            "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
-            "& .MuiOutlinedInput-root": {
-              backgroundColor: colorPalette[0].rgba,
-              color: colorPalette[1].rgba,
-            },
-          }}
-        />
-        <TextField
-          label="UF"
-          name="enderecoDestino.uf"
-          value={formData.enderecoDestino.uf}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-          sx={{
-            "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
-            "& .MuiOutlinedInput-root": {
-              backgroundColor: colorPalette[0].rgba,
-              color: colorPalette[1].rgba,
-            },
-          }}
-        />
+
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <TextField
+            label="Bairro"
+            name="enderecoDestino.bairro"
+            value={formData.enderecoDestino.bairro}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            required
+            sx={{
+              "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
+              "& .MuiOutlinedInput-root": {
+                backgroundColor: colorPalette[0].rgba,
+                color: colorPalette[1].rgba,
+              },
+            }}
+          />
+          <TextField
+            label="Cidade"
+            name="enderecoDestino.cidade"
+            value={formData.enderecoDestino.cidade}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            required
+            sx={{
+              "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
+              "& .MuiOutlinedInput-root": {
+                backgroundColor: colorPalette[0].rgba,
+                color: colorPalette[1].rgba,
+              },
+            }}
+          />
+          <TextField
+            label="UF"
+            name="enderecoDestino.uf"
+            value={formData.enderecoDestino.uf}
+            onChange={handleChange}
+            margin="normal"
+            required
+            sx={{
+              width: "20%",
+              "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
+              "& .MuiOutlinedInput-root": {
+                backgroundColor: colorPalette[0].rgba,
+                color: colorPalette[1].rgba,
+              },
+            }}
+          />
+        </Box>
+
         <TextField
           label="Referência (Opcional)"
           name="enderecoDestino.referencia"
@@ -384,12 +446,15 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
           }}
         />
 
+        <Divider sx={{ my: 3 }} />
+
         <Typography
           variant="h6"
-          sx={{ mt: 3, mb: 1, color: colorPalette[1].rgba }}
+          sx={{ mb: 2, color: colorPalette[1].rgba, fontWeight: "bold" }}
         >
           Detalhes do Pedido
         </Typography>
+
         <TextField
           select
           label="Tipo de Entrega"
@@ -407,65 +472,86 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
             },
           }}
         >
-          <MenuItem value="PADRAO">Padrão</MenuItem>
-          <MenuItem value="EXPRESSA">Expressa</MenuItem>
+          <MenuItem value="PADRAO">Padrão (mínimo 3 dias úteis)</MenuItem>
+          <MenuItem value="ECONOMICA">Econômica (mínimo 7 dias úteis)</MenuItem>
+          <MenuItem value="EXPRESSA">Expressa (mínimo 1 dia útil)</MenuItem>
         </TextField>
+
         <TextField
-          label="Descrição do Bebê"
+          label="Descrição Completa do Bebê"
           name="descricaoBebe"
           value={formData.descricaoBebe}
           onChange={handleChange}
           fullWidth
           margin="normal"
           required
+          disabled
           multiline
-          rows={3}
+          rows={4}
           sx={{
             "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
             "& .MuiOutlinedInput-root": {
               backgroundColor: colorPalette[0].rgba,
               color: colorPalette[1].rgba,
             },
-          }}
-        />
-        <TextField
-          label="Peso (kg)"
-          name="pesoKg"
-          type="number"
-          value={formData.pesoKg}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-          inputProps={{ step: "0.1" }}
-          sx={{
-            "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
-            "& .MuiOutlinedInput-root": {
-              backgroundColor: colorPalette[0].rgba,
+            "& .MuiFormHelperText-root": {
               color: colorPalette[1].rgba,
+              opacity: 0.7,
             },
           }}
         />
+
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <TextField
+            label="Peso (kg)"
+            name="pesoKg"
+            type="number"
+            value={formData.pesoKg}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            required
+            inputProps={{ step: "0.1", min: "0.1" }}
+            helperText="Preenchido automaticamente"
+            sx={{
+              "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
+              "& .MuiOutlinedInput-root": {
+                backgroundColor: colorPalette[0].rgba,
+                color: colorPalette[1].rgba,
+              },
+              "& .MuiFormHelperText-root": {
+                color: colorPalette[1].rgba,
+                opacity: 0.7,
+              },
+            }}
+          />
+          <TextField
+            label="Altura (cm)"
+            name="alturaCm"
+            type="number"
+            value={formData.alturaCm}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            required
+            inputProps={{ step: "0.1", min: "20" }}
+            helperText="Preenchido automaticamente"
+            sx={{
+              "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
+              "& .MuiOutlinedInput-root": {
+                backgroundColor: colorPalette[0].rgba,
+                color: colorPalette[1].rgba,
+              },
+              "& .MuiFormHelperText-root": {
+                color: colorPalette[1].rgba,
+                opacity: 0.7,
+              },
+            }}
+          />
+        </Box>
+
         <TextField
-          label="Altura (cm)"
-          name="alturaCm"
-          type="number"
-          value={formData.alturaCm}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-          inputProps={{ step: "0.1" }}
-          sx={{
-            "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
-            "& .MuiOutlinedInput-root": {
-              backgroundColor: colorPalette[0].rgba,
-              color: colorPalette[1].rgba,
-            },
-          }}
-        />
-        <TextField
-          label="Valor Declarado"
+          label="Valor Declarado (R$)"
           name="valorDeclarado"
           type="number"
           value={formData.valorDeclarado}
@@ -473,18 +559,23 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
           fullWidth
           margin="normal"
           required
-          inputProps={{ step: "0.01" }}
+          inputProps={{ step: "0.01", min: "0" }}
+          helperText="Informe o valor do bebê para fins de seguro"
           sx={{
             "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
             "& .MuiOutlinedInput-root": {
               backgroundColor: colorPalette[0].rgba,
               color: colorPalette[1].rgba,
             },
+            "& .MuiFormHelperText-root": {
+              color: colorPalette[1].rgba,
+              opacity: 0.7,
+            },
           }}
         />
 
         <Box
-          sx={{ display: "flex", justifyContent: "flex-end", mt: 3, gap: 2 }}
+          sx={{ display: "flex", justifyContent: "flex-end", mt: 4, gap: 2 }}
         >
           <Button
             variant="outlined"

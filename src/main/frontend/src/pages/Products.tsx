@@ -10,6 +10,8 @@ import {
   CircularProgress,
   Box,
   Button,
+  Chip,
+  Stack,
 } from "@mui/material";
 import { toast } from "react-toastify";
 import type { Produto } from "../types/produto";
@@ -161,6 +163,11 @@ export const Products: React.FC = () => {
                 borderRadius: "8px",
                 backgroundColor: getCardColor(index),
                 cursor: "pointer",
+                transition: "transform 0.2s ease-in-out",
+                "&:hover": {
+                  transform: "translateY(-4px)",
+                  boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
+                },
               }}
               onClick={() => handleOpenModal(produto)}
             >
@@ -171,35 +178,77 @@ export const Products: React.FC = () => {
                 alt={produto.nome}
                 sx={{ objectFit: "cover" }}
               />
-              <CardContent sx={{ flexGrow: 1 }}>
+              <CardContent sx={{ flexGrow: 1, pb: 1 }}>
                 <Typography
                   gutterBottom
                   variant="h6"
                   component="div"
                   sx={{
-                    color: index === 1 ? "white" : "inherit", // Texto branco para o card rosa escuro do Noah
+                    color: index === 1 ? "white" : "inherit",
+                    fontWeight: "bold",
+                    mb: 1,
                   }}
                 >
                   {produto.nome}
                 </Typography>
+
                 <Typography
                   variant="body2"
                   sx={{
                     color:
                       index === 1
                         ? "rgba(255, 255, 255, 0.8)"
-                        : "text.secondary", // Texto branco semi-transparente para o Noah
+                        : "text.secondary",
+                    mb: 2,
+                    display: "-webkit-box",
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
                   }}
                 >
                   {produto.descricao}
                 </Typography>
+
+                {/* Chips com peso e altura */}
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  sx={{ mb: 2, flexWrap: "wrap", gap: 0.5 }}
+                >
+                  <Chip
+                    label={`${produto.peso_kg}kg`}
+                    size="small"
+                    sx={{
+                      backgroundColor: colorPalette[1].rgba,
+                      color: colorPalette[4].rgba,
+                      fontWeight: "bold",
+                      fontSize: "0.75rem",
+                    }}
+                  />
+                  <Chip
+                    label={`${produto.altura_cm}cm`}
+                    size="small"
+                    sx={{
+                      backgroundColor: colorPalette[1].rgba,
+                      color: colorPalette[4].rgba,
+                      fontWeight: "bold",
+                      fontSize: "0.75rem",
+                    }}
+                  />
+                </Stack>
+
                 <Button
                   variant="contained"
+                  fullWidth
                   sx={{
-                    mt: 2,
+                    mt: "auto",
                     backgroundColor: colorPalette[1].rgba,
+                    color: colorPalette[4].rgba,
+                    fontWeight: "bold",
+                    borderRadius: "8px",
                     "&:hover": {
                       backgroundColor: colorPalette[2].rgba,
+                      transform: "translateY(-1px)",
                     },
                   }}
                   onClick={(e) => {
