@@ -75,6 +75,19 @@ export const Products: React.FC = () => {
     setSelectedProduto(null);
   };
 
+  // Cores personalizadas para os cards com rosa escuro no lugar do azul escuro
+  const getCardColor = (index: number) => {
+    const customColors = [
+      colorPalette[0].rgba, // Azul claro - Maya
+      "#8B4A6B", // Rosa escuro - Noah (substituindo o azul escuro problemático)
+      colorPalette[2].rgba, // Azul médio - Alice
+      colorPalette[3].rgba, // Rosa claro - Arthur
+      colorPalette[4].rgba, // Branco/cinza - Sophia
+      colorPalette[0].rgba, // Azul claro - Samuel
+    ];
+    return customColors[index % customColors.length];
+  };
+
   if (loading) {
     return (
       <Container
@@ -146,7 +159,7 @@ export const Products: React.FC = () => {
                 display: "flex",
                 flexDirection: "column",
                 borderRadius: "8px",
-                backgroundColor: colorPalette[index % colorPalette.length].rgba,
+                backgroundColor: getCardColor(index),
                 cursor: "pointer",
               }}
               onClick={() => handleOpenModal(produto)}
@@ -159,10 +172,25 @@ export const Products: React.FC = () => {
                 sx={{ objectFit: "cover" }}
               />
               <CardContent sx={{ flexGrow: 1 }}>
-                <Typography gutterBottom variant="h6" component="div">
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="div"
+                  sx={{
+                    color: index === 1 ? "white" : "inherit", // Texto branco para o card rosa escuro do Noah
+                  }}
+                >
                   {produto.nome}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color:
+                      index === 1
+                        ? "rgba(255, 255, 255, 0.8)"
+                        : "text.secondary", // Texto branco semi-transparente para o Noah
+                  }}
+                >
                   {produto.descricao}
                 </Typography>
                 <Button
