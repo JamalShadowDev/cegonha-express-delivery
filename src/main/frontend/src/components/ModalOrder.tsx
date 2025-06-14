@@ -9,7 +9,10 @@ import {
   CircularProgress,
   Alert,
   MenuItem,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import { toast } from "react-toastify";
 import { colorPalette } from "../types/colorPalette";
 import type { Produto } from "../types/produto";
@@ -30,6 +33,20 @@ interface PedidoRequest {
   pesoKg: number;
   alturaCm: number;
   valorDeclarado: number;
+}
+
+interface ViaCepResponse {
+  cep: string;
+  logradouro: string;
+  complemento?: string;
+  bairro: string;
+  localidade: string;
+  uf: string;
+  ibge?: string;
+  gia?: string;
+  ddd?: string;
+  siafi?: string;
+  erro?: boolean;
 }
 
 interface PedidoModalProps {
@@ -62,6 +79,7 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
   });
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingCep, setLoadingCep] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const style = {
@@ -104,13 +122,64 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
     }
   };
 
+  const buscarCep = async () => {
+    const cep = formData.enderecoDestino.cep.replace(/\D/g, "");
+
+    if (cep.length !== 8) {
+      toast.error("CEP deve ter 8 dígitos");
+      return;
+    }
+
+    setLoadingCep(true);
+    try {
+      const response = await axios.get<ViaCepResponse>(
+        `http://localhost:8080/api/enderecos/cep/${cep}`,
+      );
+      const data = response.data;
+
+      if (data.erro) {
+        toast.error("CEP não encontrado");
+        return;
+      }
+
+      // Atualizar os campos do endereço com os dados retornados
+      setFormData((prev) => ({
+        ...prev,
+        enderecoDestino: {
+          ...prev.enderecoDestino,
+          cep: data.cep,
+          logradouro: data.logradouro || "",
+          bairro: data.bairro || "",
+          cidade: data.localidade || "",
+          uf: data.uf || "",
+          complemento: data.complemento || prev.enderecoDestino.complemento,
+          // Manter número e referência que o usuário pode ter digitado
+        },
+      }));
+
+      toast.success("CEP encontrado!");
+    } catch (error) {
+      console.error("Erro ao buscar CEP:", error);
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        toast.error("CEP não encontrado");
+      } else {
+        toast.error("Erro ao buscar CEP. Tente novamente.");
+      }
+    } finally {
+      setLoadingCep(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
-      const response = await axios.post("/api/encomendas", formData);
+      const response = await axios.post(
+        "http://localhost:8080/api/encomendas",
+        formData,
+      );
       toast.success(
         `Pedido de ${produto.nome} criado com sucesso! ID: ${response.data.id || response.data.codigo}`,
       );
@@ -167,6 +236,7 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
         >
           Endereço de Destino
         </Typography>
+
         <TextField
           label="CEP"
           name="enderecoDestino.cep"
@@ -175,6 +245,25 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
           fullWidth
           margin="normal"
           required
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={buscarCep}
+                  disabled={loadingCep || !formData.enderecoDestino.cep}
+                  edge="end"
+                  sx={{
+                    color: colorPalette[1].rgba,
+                    "&:disabled": {
+                      color: "rgba(0, 0, 0, 0.26)",
+                    },
+                  }}
+                >
+                  {loadingCep ? <CircularProgress size={20} /> : <SearchIcon />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
           sx={{
             "& .MuiInputLabel-root": { color: colorPalette[1].rgba },
             "& .MuiOutlinedInput-root": {
@@ -183,6 +272,7 @@ export const ModalOrder: React.FC<PedidoModalProps> = ({
             },
           }}
         />
+
         <TextField
           label="Logradouro"
           name="enderecoDestino.logradouro"
