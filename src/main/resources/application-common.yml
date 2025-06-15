@@ -1,0 +1,25 @@
+# Configurações comuns para todos os ambientes
+spring:
+  # Configurações do Thymeleaf
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+
+  # Configurações de recursos estáticos
+  web:
+    resources:
+      static-locations: classpath:/static/
+      cache:
+        period: 0
+
+# Configurações de validação
+validation:
+  enabled: true
+
+# Configurações de timeout para APIs externas
+api:
+  timeout:
+    connection: 5000
+    read: 10000

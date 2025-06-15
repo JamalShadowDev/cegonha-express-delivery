@@ -1,0 +1,130 @@
+catalogo:
+  bebes:
+    bebe_001:
+      nome: "Maya"
+      cabelo: "Loiro claro, fino e com pouco volume"
+      olhos: "Azuis, abertos"
+      corpo: "Vinil siliconado"
+      idade: "4 a 6 meses"
+      peso_bebe_kg: 5.400
+      
+      # Campos fixos
+      cabeca_mole: true
+      membros_articulados: true
+      
+      # Acessórios
+      acessorios:
+        - "Vestido branco com detalhes azuis"
+        - "Faixa de cabelo azul com laço branco"
+        - "Manta de algodão azul bebê"
+      
+      peso_acessorios_kg: 0.335
+      peso_total_kg: 5.735
+
+    bebe_002:
+      nome: "Noah"
+      cabelo: "Castanho escuro, com alguns fios espetados"
+      olhos: "Castanhos, fechados (dormindo)"
+      corpo: "Pano com membros de vinil"
+      idade: "0 a 1 mês"
+      peso_bebe_kg: 2.800
+      
+      # Campos fixos
+      cabeca_mole: true
+      membros_articulados: true
+      
+      # Acessórios
+      acessorios:
+        - "Macacão branco com bordado de âncora azul"
+        - "Gorro azul"
+        - "Luvas anti-arranhão brancas"
+        - "Meia azul marinho"
+      
+      peso_acessorios_kg: 0.215
+      peso_total_kg: 3.015
+
+    bebe_003:
+      nome: "Alice"
+      cabelo: "Ruivo claro, com cachos suaves"
+      olhos: "Verdes, abertos"
+      corpo: "Silicone sólido"
+      idade: "7 a 9 meses"
+      peso_bebe_kg: 7.300
+      
+      # Campos fixos
+      cabeca_mole: true
+      membros_articulados: true
+      
+      # Acessórios
+      acessorios:
+        - "Body de tricô bege"
+        - "Toquinha de tricô bege"
+        - "Botinha de lã cru"
+        - "Xale de tricô cru"
+      
+      peso_acessorios_kg: 0.375
+      peso_total_kg: 7.675
+
+    bebe_004:
+      nome: "Arthur"
+      cabelo: "Castanho"
+      olhos: "Fechados"
+      corpo: "Silicone sólido"
+      idade: "1 a 3 meses"
+      peso_bebe_kg: 4.500
+      
+      # Campos fixos
+      cabeca_mole: true
+      membros_articulados: true
+      
+      # Acessórios
+      acessorios:
+        - "Conjunto branco e azul"
+        - "Touca de tricô branca"
+        - "Macacão de algodão azul"
+        - "Meia listrada azul e branca"
+        - "Cobertor bordado branco"
+      
+      peso_acessorios_kg: 0.625
+      peso_total_kg: 5.125
+
+    bebe_005:
+      nome: "Sophia"
+      cabelo: "Castanho médio, com bastante cabelo"
+      olhos: "Azuis acinzentados, fechados (dormindo com pálpebras levemente entreabertas)"
+      corpo: "Pano com braços e pernas de silicone macio"
+      idade: "2 a 4 meses"
+      peso_bebe_kg: 4.800
+      
+      # Campos fixos
+      cabeca_mole: true
+      membros_articulados: true
+      
+      # Acessórios
+      acessorios:
+        - "Body amarelo claro"
+        - "Calça de mijão amarela"
+        - "Sapatinho de crochê amarelo"
+        - "Fralda de pano branca"
+      
+      peso_acessorios_kg: 0.240
+      peso_total_kg: 5.040
+
+    bebe_006:
+      nome: "Samuel"
+      cabelo: "Loiro escuro, ralo"
+      olhos: "Fechados"
+      corpo: "Silicone sólido de corpo inteiro"
+      idade: "5 a 7 meses"
+      peso_bebe_kg: 6.800
+      
+      # Campos fixos
+      cabeca_mole: true
+      membros_articulados: true
+      
+      # Acessórios
+      acessorios:
+        - "Macacão de tricô branco"
+      
+      peso_acessorios_kg: 0.180
+      peso_total_kg: 6.980

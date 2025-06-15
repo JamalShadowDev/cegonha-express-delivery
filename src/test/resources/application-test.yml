@@ -1,0 +1,33 @@
+# Configurações base para testes - SEM spring.profiles.active
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+  h2:
+    console:
+      enabled: false
+
+# Configurações públicas do Google Maps (sem chave)
+google:
+  maps:
+    distance:
+      matrix:
+        url: https://maps.googleapis.com/maps/api/distancematrix/json
+
+# Logs para testes
+logging:
+  level:
+    br.com.cegonhaexpress: INFO
+    com.google.maps: WARN
+    org.hibernate: WARN
