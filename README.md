@@ -401,15 +401,17 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 👨‍💻 Autores
 
-- [Adryelle Calefi](https://github.com/DryCaleffi)
-- [Brenda Gaudêncio](https://github.com/brendagaudencio)
-- [Gabriel Coelho Soares](https://github.com/GabrielCoelho)
-- [Guilherme Garcia](https://github.com/HiroGarcia)
-- [Marcos Moreira](https://github.com/JamalShadowDev)
-- [Mateus Nascimento de Araújo](https://github.com/M-Araujo26)
-- [Renan Mazzilli Dias](https://github.com/renan-mazzilli)
-- [Tabata Etiéle](https://github.com/TabataEtiele)
-- [Thaito Batalini](https://github.com/tahitoGB)
+Desenvolvedor | Responsabilidade Principal | GitHub
+-- | -- | --
+Gabriel Coelho Soares | Liderança, Arquitetura Backend, Integração APIs | @GabrielCoelho
+Brenda Gaudêncio | Frontend React, UI/UX | @brendagaudencio 
+Marcos Moreira | Dados, Configuração AWS | @JamalShadowDev
+Renan Mazzilli | DevOps, Build Tools | @renan-mazzilli
+Adryelle Calefi | Gestão, Documentação | @DryCaleffi
+Guilherme Garcia | Code Review, Testes | @HiroGarcia
+Mateus Nascimento | Gestão, Apresentação | @M-Araujo26
+Tabata Etiéle | Code Review, Documentação | @TabataEtiele 
+Thaito Batalini | Code Review, Apresentação | @thaitoGB 
 
 ## 📞 Suporte
 
