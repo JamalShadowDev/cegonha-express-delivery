@@ -403,15 +403,15 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 Desenvolvedor | Responsabilidade Principal | GitHub
 -- | -- | --
-Gabriel Coelho Soares | Liderança, Arquitetura Backend, Integração APIs | @GabrielCoelho
-Brenda Gaudêncio | Frontend React, UI/UX | @brendagaudencio 
-Marcos Moreira | Dados, Configuração AWS | @JamalShadowDev
-Renan Mazzilli | DevOps, Build Tools | @renan-mazzilli
-Adryelle Calefi | Gestão, Documentação | @DryCaleffi
-Guilherme Garcia | Code Review, Testes | @HiroGarcia
-Mateus Nascimento | Gestão, Apresentação | @M-Araujo26
-Tabata Etiéle | Code Review, Documentação | @TabataEtiele 
-Thaito Batalini | Code Review, Apresentação | @thaitoGB 
+Gabriel Coelho Soares | Liderança, Arquitetura Backend, Integração APIs | [@GabrielCoelho](https://github.com/GabrielCoelho)
+Brenda Gaudêncio | Frontend React, UI/UX | [@brendagaudencio](https://github.com/brendagaudencio)
+Marcos Moreira | Dados, Configuração AWS | [@JamalShadowDev](https://github.com/JamalShadowDev)
+Renan Mazzilli | DevOps, Build Tools | [@renan-mazzilli](https://github.com/renan-mazzilli]
+Adryelle Calefi | Gestão, Documentação | [@DryCaleffi](https://github.com/DryCaleffi)
+Guilherme Garcia | Code Review, Testes | [@HiroGarcia](https://github.com/HiroGarcia)
+Mateus Nascimento | Gestão, Apresentação | [@M-Araujo26](https://github.com/M-Araujo26)
+Tabata Etiéle | Code Review, Documentação | [@TabataEtiele](https://github.com/TabataEtiele)
+Thaito Batalini | Code Review, Apresentação | [@thaitoGB](https://github.com/thaitoGB)
 
 ## 📞 Suporte
 
