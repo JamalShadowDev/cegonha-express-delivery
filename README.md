@@ -394,7 +394,174 @@ logging:
   - `frontend`: Código implementado pela equipe de *fronend* testado somente dentro deste escopo
 - `feat/*`: Novas funcionalidades a serem implementadas
 - `(bug/hot)fix/*`: Correções de bugs
+# 📋 Guia do Usuário - Cegonha Express
 
+Bem-vindo ao **Cegonha Express**! Este guia irá ajudá-lo a navegar pela nossa plataforma e realizar pedidos de bebês Reborn de forma simples e rápida.
+
+## 🏠 Página Principal
+
+Ao acessar nosso site, você terá duas opções principais:
+- **Acessar o Catálogo**: Para explorar e encomendar bebês Reborn
+- **Rastrear Pedido**: Para acompanhar o status da sua encomenda
+![image](https://github.com/user-attachments/assets/b29da046-7586-4bf2-be52-dd13284ae1de)
+
+## 🛍️ Como Fazer seu Pedido
+
+### Passo 1: Acesse o Catálogo
+Navegue pelo nosso catálogo completo com todas as opções de bebês Reborn disponíveis para pronta entrega.
+![image](https://github.com/user-attachments/assets/64757dd1-99cd-4f79-8481-63723aeda347)
+
+
+### Passo 2: Escolha seu Bebê
+- Explore as diversas opções com diferentes características
+- Encontre o bebê que conquista seu coração
+- Clique em **"FAZER PEDIDO"** no bebê escolhido
+
+
+![image](https://github.com/user-attachments/assets/cd4853f5-9f02-4f71-bfc9-59e6179d69fa)
+
+
+### Passo 3: Preencha suas Informações
+Você será direcionado para uma página de checkout onde deverá:
+- Informar seus dados pessoais
+- Preencher o endereço de entrega completo
+- Verificar se o CEP está correto
+
+
+![image](https://github.com/user-attachments/assets/86be9535-036c-46e0-b48d-869b460d02bc)
+
+
+
+> ⚠️ **Atenção**: Caso informe um CEP inválido, você receberá uma mensagem de erro. Certifique-se de inserir um CEP válido para prosseguir.
+
+
+![image](https://github.com/user-attachments/assets/454f52c0-abef-4161-aa07-144402b1afef)
+
+
+### Passo 4: Confirme seu Pedido
+- Revise todas as informações inseridas
+- Escolha o tipo de entrega desejado
+- Confirme o pedido
+![image](https://github.com/user-attachments/assets/ef8e9609-5fd3-4a36-ba6a-bd441425dbcc)
+
+
+### Opções de Entrega
+
+| Tipo | Descrição |
+|------|-----------|
+| 🚚 **Econômica** | Opção mais acessível com prazo estendido |
+| 📦 **Padrão** | Equilibrio entre preço e prazo |
+| ⚡ **Express** | Entrega mais rápida |
+
+### Passo 5: Confirmação
+Após finalizar o pedido, você receberá:
+- Notificação de confirmação
+- **Código de rastreio** para acompanhar sua encomenda
+
+![image](https://github.com/user-attachments/assets/36fc984e-4168-4b49-8251-45dd1911ad9e)
+
+
+## 📍 Como Rastrear seu Pedido
+
+### 1. Acesse o Rastreamento
+- Clique em "Rastreio" na página principal ou na barra de navegação
+
+
+![image](https://github.com/user-attachments/assets/6cf7af04-3992-4324-8d6c-c65d5d02bfb1)
+
+
+
+### 2. Insira o Código
+- Digite o código de rastreio fornecido na confirmação do pedido
+- Clique em **"Rastrear Encomenda"**
+
+
+![image](https://github.com/user-attachments/assets/b3b62a75-87d8-404d-9c96-37097836ae73)
+
+
+### 3. Acompanhe o Status
+
+Seu pedido passará pelos seguintes status:
+
+#### 🟡 Pendente
+- Nossas cegonhas estão preparando seu bebê
+- Status inicial após confirmação do pedido
+
+
+
+
+![image](https://github.com/user-attachments/assets/1dea2100-4c56-4f19-87b0-cb01135c06fe)
+
+
+
+#### 🔵 Pedido Confirmado
+- Seu bebê está quase pronto para a viagem
+- Informações de frete e prazo de entrega disponíveis
+
+
+
+
+![image](https://github.com/user-attachments/assets/6b7da0c5-0f48-4046-8084-143e111c3f20)
+
+
+
+
+#### 🟣 Em Trânsito
+- Seu bebê saiu do ninho e está a caminho do seu novo lar
+- Acompanhe a jornada até a entrega
+
+
+
+![image](https://github.com/user-attachments/assets/5e9b0843-3c3a-4284-9189-72d7a53193e2)
+
+
+
+#### 🟢 Entregue
+- Seu bebê chegou ao destino
+- Pedido finalizado com sucesso
+
+
+![image](https://github.com/user-attachments/assets/c3014766-707a-47a6-84e4-557fba3645b2)
+
+
+
+#### 🔴 Cancelado
+- Pedido cancelado (quando aplicável)
+- Disponível para confirmação na tela de rastreio
+
+
+
+![image](https://github.com/user-attachments/assets/e4f6afb1-1119-4e82-80e5-e6cc232ed8d5)
+
+
+## 👨‍💼 Painel Administrativo
+
+> 📝 **Para Administradores/Cegonhas**
+
+![image](https://github.com/user-attachments/assets/5f393b32-b9fa-4c5f-9ad6-4ea931a28fdf)
+
+
+O painel administrativo permite:
+- Gerenciar status dos pedidos
+- Avançar etapas de entrega
+- Cancelar pedidos quando necessário
+- Monitorar bebês nos ninhos e em trânsito
+
+### Responsabilidades:
+- Acompanhar bebês que ainda estão sendo preparados
+- Monitorar entregas em andamento
+- Manter status atualizados em tempo real
+
+## 🆘 Suporte
+
+Em caso de dúvidas ou problemas:
+- Verifique se o CEP informado está correto
+- Certifique-se de ter o código de rastreio em mãos
+- Entre em contato com nossa equipe de suporte
+
+---
+
+> 💝 **Cegonha Express** - Realizando sonhos sem a espera de 9 meses!
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
