@@ -589,4 +589,11 @@ Para dúvidas e suporte:
 
 ---
 
+## 🔄 Fork Information
+
+Este repositório é um fork mantido por [@JamalShadowDev](https://github.com/JamalShadowDev) do projeto original desenvolvido em equipe.
+**Repositório original:** [GabrielCoelho/cegonha-express-delivery](https://github.com/GabrielCoelho/cegonha-express-delivery)
+
+---
+
 *Projeto desenvolvido com ☕ para fins acadêmicos - FATEC 2025*
